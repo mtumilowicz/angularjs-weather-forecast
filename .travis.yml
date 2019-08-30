@@ -1,19 +1,23 @@
 dist: trusty
 
-language: node_js
-node_js:
-  - 10
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - 10
 
-addons:
-  chrome: stable
+      addons:
+        chrome: stable
 
-cache:
-  directories:
-    - "$HOME/.npm"
+      cache:
+        directories:
+          - "$HOME/.npm"
 
-install:
-  - npm install
+      install:
+        - npm install
 
-script:
-  - npm run test-single-run -- --browsers ChromeHeadless
-  - (npm start > /dev/null &) && npm run protractor -- --capabilities.chromeOptions.args headless
+      script:
+        - npm run test-single-run -- --browsers ChromeHeadless
+        - (npm start > /dev/null &) && npm run protractor -- --capabilities.chromeOptions.args headless
+    - language: java
+      jdk: openjdk12
