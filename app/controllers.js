@@ -19,7 +19,7 @@ weatherApp.controller('forecastController', ['$scope', '$resource', '$routeParam
     
     $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.days });
 
-    $scope.convertToFahrenheit = function(degK) {
+    $scope.convertToCelsius = function(degK) {
         return Math.round(degK - 273.15);
     };
     
