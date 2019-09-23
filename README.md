@@ -77,21 +77,23 @@
     ```
 1. scope service
 	* all angularjs services starts with `$`
-	* scope - bind a model to the view
-		myApp.controller('mainController', ($scope) => { // angularjs inject it to the function
-			$scope.name = 'asd'; // add a property name with value 'asd', we can also add a function
-			cl($scope); // complex object
-		})
-	* and then in view: {{name}}
-		if you write in controller something like that
+	* `$scope` is a complex object
+	* `$scope` - bind a model to the view
+	    ```
+   		myApp.controller('mainController', ($scope) => { // angularjs inject it to the function
+   			$scope.name = 'asd'; // add a property name with value 'asd', we can also add a function
+   		})
+        ```
+        and then in view: `{{name}}`
+        * code given below will change after 3 seconds value name in the view from 'xxx' to 'yyy'
+            ```
 			$scope.name = 'xxx';
 			$timeout(function() {
 				$scope.name = 'yyy';
 			}, 3000);
-			
-			then after 3 second the name in the view goes from 'xxx' to 'yyy'
-	* scope defines data that will go back and forth between view and js script
-	* scope is new in every controller request (by DI)
+			```
+	* `$scope` defines data that will go back and forth between view and js script
+	* `$scope` is new in every controller request (by DI)
 1. how does angularjs do dependency injection?
 	* suppose we have v`ar f = function(a, b)`
 	* `angular.injector().annotate(f)` returns `["a", "b"]` (array of param names)
@@ -107,17 +109,16 @@
     * `$http`
     * `$timeout`
 1. minification vs compression
-	* Minification is the process of minifying something, and we talk about minifying something, we are talking about making it shorter, smaller, tinier.
-		* In the Internet context and very often in Web technologies, we are talking about removing unnecessary stuff from our files, like for instance: headings, spaces, author information, comments, breaklines, among others.
-	* compression: Huffmans algo
-		* Nowadays most servers support the utility and make sure they send over a compressed version of the file, then, on the client side, the browser decompresses the file and shows it as it was before compression.
-1. interpolation: 'a' + 'b' (creating a string by concat two others)
+	* minification - making something shorter
+		* web technologies context: removing unnecessary stuff: ex. spaces, comments, making shorter variable names
+	* compression: ex. Huffmans algorithm (most frequent words have shorter binary equivalent)
 1. directives and two way data binding
-	* directives - an instruction to angularjs to manipulate a piece of the DOM - this could be, for example, hide this, show that, create this...
-		* ng-app, ng-controller
-		* <input type="text" ng-model="handle"/> then in controller $scope.handle = ''; bind in two directions
-1. event loop - javascript waits and listen for events (click, keypress. mouseover) in an event loop
-	* angularjs is extending event loop; it adds angular context
+	* directives - changes DOM - ex. hide this
+		* `ng-app`
+		* `ng-controller`
+		* two direction binding: `<input type="text" ng-model="handle"/>` and in controller `$scope.handle = ...`
+1. event loop - js waits and listen for events (click, keypress, mouseover) in an event loop
+	* angularjs is extending event loop by adding angular context
 		* watchers - tracking and watch all values that can change watchlist (old value, new value)
 			$scope.$watch('handle', (new, old) => {})
 			* out of angular context
@@ -126,30 +127,31 @@
 				* angularjs is usually put everything in $scope.$apply instead of you; it provides $timeout - you have to buy all with angularjs
 		* digest loop - checked if something has changed? - it compared old value and new value from watchlist
 1. common directives
-	* ng-if="condition" - hide / show
-	* ng-show / ng-hide ="condition" - hide / show
-	* ng-if vs ng-show
-		* ng-if - removes or recreates; 
-		* ng-show - shows or hides; 
+	* `ng-if="condition"` - hide / show
+	* `ng-show / ng-hide ="condition"` - hide / show
+	* `ng-if` vs `ng-show`
+		* `ng-if` - removes or recreates
+		* `ng-show` - shows or hides
 	* ng-class="{ 'alert-warning': handle.length < characters }" - decide what class to choose (alert, or OK); separate by comma
-	* ng-repeat="rule in rules"; rules = [{rulename: "as", ....}]
-	* ng-click="function from scope"
-	* ng-clock - prevent the AngularJS html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading
-1. XMLHttpRequest Object
+	* `ng-repeat="rule in rules"`
+	* `ng-click="function from scope"`
+	* `ng-clock` - prevent the AngularJS html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading
+1. `XMLHttpRequest`
 	* can make request
-	* angularjs - $http
-	* $http.get('/api').success(r => $scope.rules = result).error(e, status => )
+	* angularjs equivalent - `$http`
+	* `$http.get('/api').success(r => $scope.rules = result).error(e, status => )`
 1. SPA & hash 
-	* hash identifies by element by id; <a href="#bookmark"/>
-	* window.addEventListener('hashchange', () => console.log(window.location.hash))
+	* hash identifies by element by id: `<a href="#bookmark"/>`
+	* `window.addEventListener('hashchange', () => console.log(window.location.hash))`
 		* bookmark could not exists, hashchange is still fired
-		* pretend to directory structure: #/bookmark/1 - we could use if like if window.location.hash === #/bookmark/1 ...
+		* pretend to directory structure: `#/bookmark/1` - we could use if like if `window.location.hash === #/bookmark/1`
 	* using fragment identifier for some purposes is a fundamental key to SPA
 		* SPA - is downloaded once by browser using fragment URL
-		* pretenmd each hash value corresponds to the other page
+		* pretend each hash value corresponds to the other page
 1. routing, templates, controllers
-	* $location - $location.path() - after #, #/bookmark/1 -> /bookmark/1
-	* ngRoute, $routeProvider - specifies route - what should I do when I see particular thing in hash (pattern)
+	* `$location`: `$location.path()` - after #, `#/bookmark/1 -> /bookmark/1`
+	* `ngRoute`, `$routeProvider` - specifies route - what should I do when I see particular thing in hash (pattern)
+		```
 		$routeProvider
 			.when('/', {
 				templateUrl: 'pages/main.html',
@@ -163,12 +165,13 @@
 				templateUrl: 'pages/second.html',
 				controller: 'secondController'
 			})
-	* instead ng-controller use ng-view which connects view and controllers
-		* ng-view used to SPA - replace content with routing provider definitions
-	* $routeParams
-	* why? it is not blinking - it comes to speed; downloaded only once and then the appropriate parts are only downloaded
+        ```
+	* instead `ng-controller` use `ng-view` which connects view and controllers
+		* `ng-view` used to SPA - replace content with routing provider definitions
+	* `$routeParams`
+	* why? downloaded only once and then the appropriate parts are only downloaded
 1. singletons and services
-	* singleton - one and only copy of an object; $log is singleton
+	* singleton - one and only copy of an object; `$log` is singleton
 	* scope - scope is a child scope it is inherited from root scope; it is not exactly a singleton
 		* new copy of scope to each injection
 	* service
