@@ -8,72 +8,75 @@
 
 # notes
 1. DOM - representation of html inside web browser memory
-1. model
+1. MV*
 	* Model - data (var name = 'a')
 	* View - html (what user sees)
 	* bind: Model <-> View - whatever happens to the model affects view & one another
-	* MV*
 	* angulajs has a thing that can bind model to the view - watchers and the digest loop
 1. html - custom attributes
-	* <h1 style = "asd">... style is attributes
-	* <h1 customAttribute = 'asd'>...
-		* then in script: console.log($("h1").attr("customAttribute")) // asd
-		* ng- - custom attribute, that angular may know
+	* attribute: `<h1 style = "asd">` - style is attribute
+	* custom attribute: `<h1 customAttribute = 'asd'>`
+		* `console.log($("h1").attr("customAttribute")) // asd`
+		* `ng-` - custom attribute, that angular may know
 1. the global namespace
-	* Namespace is a container for set of identifiers, functions, methods and all that.
-	* Unfortunately JavaScript doesn’t provide namespace by default. So anything (function, method, object, variable) we create in JavaScript is global and we continue polluting that global namespace by adding more to that.
+	* namespace is a container for variables and functions
+	* JavaScript doesn’t provide namespace by default - anything we create 
+	is global be default (global namespace pollution)
 		* global
-			//declare a function
-			function calculateTax(item) {
-				return item.price * 1.40;
-			}
-			 
-			var product = function (cost) {
-
-			   this.cost = cost;
-			   this.getCost = function(){
-				  return this.cost;
-			   };
-			};
-			 
-			function doTaxCalculations() {
-
-				var p = new product(100);
-				alert(calculateTax(p.getCost()));
-			}
+		    ```
+            function calculateTax(item) {
+                return item.price * 1.40;
+            }
+            
+            var product = function (cost) {
+                this.cost = cost;
+                this.getCost = function () {
+                    return this.cost;
+                };
+            };
+            
+            function doTaxCalculations() {
+                var p = new product(100);
+                console.log(calculateTax(p.getCost()));
+            }
+            ```
 		* namespace
-			var MYAPPLICATION = {
-				calculateTax: function (item) {
-					return item * 1.40;
-				},
-				product: function (cost) {
-					this.cost = cost;
-					this.getCost = function(){
-									  return this.cost;
-								   };
-				},
-				doTaxCalculations: function () {
-					var p = new MYAPPLICATION.product(100);
-					alert(this.calculateTax(p.getCost()));
-				}
-			}
-	* window object is the global object:  window.String === String;
-	* Why is it bad idea to have vars/functions on a global level?
-		Because if you're adding lots of 3rd party libraries/ scripts, they all share the same global object, there's the chance of name collisions.
+		    ```
+            var MYAPPLICATION = {
+                calculateTax: function (item) {
+                    return item * 1.40;
+                },
+                product: function (cost) {
+                    this.cost = cost;
+                    this.getCost = function () {
+                        return this.cost;
+                    };
+                },
+                doTaxCalculations: function () {
+                    var p = new MYAPPLICATION.product(100);
+                    console.log(this.calculateTax(p.getCost()));
+                }
+            };
+            ```
+	* window object is the global object
+	* why is it bad idea to have vars/functions on a global level?
+	    * collisions
 1. global namespace with angular module
-	* var myApp = angular.module('myApp', []); // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
+	* `var myApp = angular.module('myApp', []);` // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
 	* then in html below document attribute: ng-app="myApp" - matches to a module name
 		* myApp.controller('mainController', () => {
 			
 		})
 		* binding controller: ng-controller="mainController"
-1. dependency injection - giving a function an object rather than creating an object inside a function, you pass it
-	function logPerson() {
-		let p = new Person(...) // function logPerson is dependent on HOW the Person is created - pass the object to the function instead of creating it inside
-		cl(p); 
-	}
+1. dependency injection - giving a function an object rather than creating an object inside a function
+	```
+ 	function xxx() {
+ 		let p = new Yyy(...) // function is dependent on HOW the object is created
+ 		...
+ 	}
+    ```
 1. scope service
-	* all angularjs services starts with '$'
+	* all angularjs services starts with `$`
 	* scope - bind a model to the view
 		myApp.controller('mainController', ($scope) => { // angularjs inject it to the function
 			$scope.name = 'asd'; // add a property name with value 'asd', we can also add a function
@@ -90,12 +93,19 @@
 	* scope defines data that will go back and forth between view and js script
 	* scope is new in every controller request (by DI)
 1. how does angularjs do dependency injection?
-	var f = function(a, b)...
-	* angular.injector().annotate(f) -> array of param names of f ["a", "b"]
-	* so angular could check if $scope is in this array and possibly inject it
-	* minification could change param names $scope -> a, what with DI? - angularjs offers another approach to DI in case of minification
-		* minification will not touch strings, so: to prevent breaking after minification: function($scope) -> ["$scope", function(a)]
-1. useful angular services as $scope: $log, $http, $timeout
+	* suppose we have v`ar f = function(a, b)`
+	* `angular.injector().annotate(f)` returns `["a", "b"]` (array of param names)
+	* ex. `params.includes("$scope")` and could inject it
+	* minification could change param names `$scope -> a`
+	    * minification does not touch strings
+	* angularjs offers another approach to DI
+	    * `myApp.controller('mainController', ($scope) => ...`
+	    * `myApp.controller('mainController', ["$scope", scope => ...]`
+1. useful angular services are
+    * `$scope`
+    * `$log`
+    * `$http`
+    * `$timeout`
 1. minification vs compression
 	* Minification is the process of minifying something, and we talk about minifying something, we are talking about making it shorter, smaller, tinier.
 		* In the Internet context and very often in Web technologies, we are talking about removing unnecessary stuff from our files, like for instance: headings, spaces, author information, comments, breaklines, among others.
