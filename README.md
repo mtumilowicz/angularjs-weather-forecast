@@ -335,107 +335,6 @@
     ng-init="names=[{name:'John', city:'Chandler'}, ...]">
    	<li ng-repeat="person in persons"> {{ person.name }} </li>
     ```
-## sort, filter, formatting
-* use pipe `|`
-* `ng-repeat="cust in customers | orderBy:'name'"`
-* key angularjs filters
-	* `currency`
-	* `date: cust.joined | date:'yyyy'`
-	* `filter`
-	* `json`
-	* `limitTo`: `ng-repeat="cust in customers | limitTo: 2`
-	* `lowercase`
-	* `number`
-	* `orderBy`
-	* `uppercase`
-* `ng-click="sortBy='name';reverse=!reverse"`
-* `ng-repeat=cust in customers | orderBy:sortBy:reverse"`
-1. `ng-controller` directive
-	* `ng-controller="SimpleController"`
-	* all scope values can be referenced from html inside the tag
-	* controller `as` syntax
-	    * `ng-controller="SimpleController as ctrl"`
-	    * `ng-repeat="cust in ctrl.customers"`
-		* easy to see from which controller property comes from
-1. modules - are containers for:
-	* controllers
-	* routes
-	* factories/services
-	* directives
-	* filters
-	* `<html ng-app="moduleName">`
-	* creating module: `var demoApp = angular.module('demoApp', [])`
-	    * [] -> dependencies (other modules)
-	* adding controller to module:
-		* take module created before: demoApp.controller("SimpleController", function($scope) => )
-		* angular.module('demoApp').controller(...)
-		* SimpleController.$inject = ['$scope']
-## routes - used for navigation
-* angularjs routes associate a view with a controller
-* customers.html <- /customers -> customersController
-* relies on ngRoute module
-* configured using $routeProvider
-### configuration
-```
-var app = angular.module('customersApp', ['ngRoute']);
-app.config($routeProvider => {
-	$routeProvider
-		.when('/',
-			{
-				controller: 'CustomersController',
-				templateUrl: '/app/views/...'
-		})
-		.otherwise({ redirectTo: '/' });
-
-});
-```
-* route parameter: `when('/editCustomer/:customerId', ...`
-    * then in controller we inject `$routeParams` and we use name: `$routeParams.customerId`
-* ng-view: <div ng-view> </div>
-## factories, services
-* singletons that perform re-useable tasks:
-	* ajax calls
-	* business rules
-	* calculations
-	* share data between controllers
-* built-in services:
-	* `$http`
-	* `$timeout`
-	* `$window`
-	* `$location`
-	* `$q`
-	* `$rootScope`
-	* `$interval`
-	* `$filter`
-	* `$log`
-### factory
-* define reusable tasks
-* share code or state between controllers
-* factories	
-	* create and return a custom object
-	* created using the module.factory() function
-	* can be injected into other components
-	* can have dependencies
-* vs controller: controller is always new instance
-* angular.module('asd').factory('factoryName', () => ... var factory = {}; factory.getCustomers = () => ...; return factory;)	
-### service
-* similar to a factory
-* service function represents the returned object as opposed to a custom object like in a factory
-	* change "factory." into "this."
-1. ajax calls from factory / service
-	* ajs can be used to make Ajax calls
-	* $http, $resource
-	* $http service
-		* provides Ajax functionality
-		* uses brower's XmlHttpRequest
-		* asynchronous requests
-		* relies on $q service's deferred/promise APIs
-		* access data by calling then(), success(), error()
-1. value: module.value(key, value); constant: module.constant(key, value)
-	* constant vs value - value can't be injected into config(); constant - can be injected into config()
-	* both can be injected in controllers etc...
-1. using $log service
-	* $log.log('')
 1. role of directives
 	* directives - markers on a DOM element that tell AngularJS HTML compiler ($compile)
 		to attach a specified behaviour to that DOM element
@@ -548,6 +447,107 @@ app.config($routeProvider => {
 		It can optionally contain a DOM element id when templates are defined in <script> tags.
 	* controller - Used to define the controller that will be associated with the directive template.
 	* link - Function used for DOM manipulation tasks.
+## sort, filter, formatting
+* use pipe `|`
+* `ng-repeat="cust in customers | orderBy:'name'"`
+* key angularjs filters
+	* `currency`
+	* `date: cust.joined | date:'yyyy'`
+	* `filter`
+	* `json`
+	* `limitTo`: `ng-repeat="cust in customers | limitTo: 2`
+	* `lowercase`
+	* `number`
+	* `orderBy`
+	* `uppercase`
+* `ng-click="sortBy='name';reverse=!reverse"`
+* `ng-repeat=cust in customers | orderBy:sortBy:reverse"`
+1. `ng-controller` directive
+	* `ng-controller="SimpleController"`
+	* all scope values can be referenced from html inside the tag
+	* controller `as` syntax
+	    * `ng-controller="SimpleController as ctrl"`
+	    * `ng-repeat="cust in ctrl.customers"`
+		* easy to see from which controller property comes from
+1. modules - are containers for:
+	* controllers
+	* routes
+	* factories/services
+	* directives
+	* filters
+	* `<html ng-app="moduleName">`
+	* creating module: `var demoApp = angular.module('demoApp', [])`
+	    * [] -> dependencies (other modules)
+	* adding controller to module:
+		* take module created before: demoApp.controller("SimpleController", function($scope) => )
+		* angular.module('demoApp').controller(...)
+		* SimpleController.$inject = ['$scope']
+## routes - used for navigation
+* angularjs routes associate a view with a controller
+* customers.html <- /customers -> customersController
+* relies on ngRoute module
+* configured using $routeProvider
+### configuration
+```
+var app = angular.module('customersApp', ['ngRoute']);
+app.config($routeProvider => {
+	$routeProvider
+		.when('/',
+			{
+				controller: 'CustomersController',
+				templateUrl: '/app/views/...'
+		})
+		.otherwise({ redirectTo: '/' });
+
+});
+```
+* route parameter: `when('/editCustomer/:customerId', ...`
+    * then in controller we inject `$routeParams` and we use name: `$routeParams.customerId`
+* ng-view: <div ng-view> </div>
+## factories, services
+* singletons that perform re-useable tasks:
+	* ajax calls
+	* business rules
+	* calculations
+	* share data between controllers
+* built-in services:
+	* `$http`
+	* `$timeout`
+	* `$window`
+	* `$location`
+	* `$q`
+	* `$rootScope`
+	* `$interval`
+	* `$filter`
+	* `$log`
+### factory
+* define reusable tasks
+* share code or state between controllers
+* factories	
+	* create and return a custom object
+	* created using the module.factory() function
+	* can be injected into other components
+	* can have dependencies
+* vs controller: controller is always new instance
+* angular.module('asd').factory('factoryName', () => ... var factory = {}; factory.getCustomers = () => ...; return factory;)	
+### service
+* similar to a factory
+* service function represents the returned object as opposed to a custom object like in a factory
+	* change "factory." into "this."
+1. ajax calls from factory / service
+	* ajs can be used to make Ajax calls
+	* $http, $resource
+	* $http service
+		* provides Ajax functionality
+		* uses brower's XmlHttpRequest
+		* asynchronous requests
+		* relies on $q service's deferred/promise APIs
+		* access data by calling then(), success(), error()
+1. value: module.value(key, value); constant: module.constant(key, value)
+	* constant vs value - value can't be injected into config(); constant - can be injected into config()
+	* both can be injected in controllers etc...
+1. using $log service
+	* $log.log('')
 # es6
 * you can think about ES6 as a javascript next version
 * ES5 supported by all browsers, ES6 needs polyfills and transpilers
@@ -675,9 +675,6 @@ app.config($routeProvider => {
    	}
    	let {name, age: age22} = obj; // age22 - alias
     ```
-1. summary destructuring
-	* array - by position
-	* object - by name
 1. importing / exporting
 	* `external.js`
 		`export let keyValue = 1000; // function could also be exported`
@@ -691,7 +688,7 @@ app.config($routeProvider => {
 	* aliases (keyValue as xxx)
 	* as xxx (object key-value pair)
 	* class could be exported
-1. Modules are always in Strict Mode (no need to define "use strict")
+1. modules are always in Strict Mode (no need to define "use strict")
 1. each module has its own scope
 1. classes
     ```
