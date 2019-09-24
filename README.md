@@ -303,68 +303,36 @@
 		* `ng-` - custom attribute, that angular may know
 1. the global namespace
 	* namespace is a container for variables and functions
-	* JavaScript doesn’t provide namespace by default - anything we create 
-	is global be default (global namespace pollution)
-		* global
-		    ```
-            function calculateTax(item) {
-                return item.price * 1.40;
-            }
-            
-            var product = function (cost) {
+	* js doesn’t provide namespace by default - anything we create 
+	is global by default (global namespace pollution)
+        ```
+        var MYAPPLICATION = {
+            calculateTax: function (item) {
+                return item * 1.40;
+            },
+            product: function (cost) {
                 this.cost = cost;
                 this.getCost = function () {
                     return this.cost;
                 };
-            };
-            
-            function doTaxCalculations() {
-                var p = new product(100);
-                console.log(calculateTax(p.getCost()));
+            },
+            doTaxCalculations: function () {
+                var p = new MYAPPLICATION.product(100);
+                console.log(this.calculateTax(p.getCost()));
             }
-            ```
-		* namespace
-		    ```
-            var MYAPPLICATION = {
-                calculateTax: function (item) {
-                    return item * 1.40;
-                },
-                product: function (cost) {
-                    this.cost = cost;
-                    this.getCost = function () {
-                        return this.cost;
-                    };
-                },
-                doTaxCalculations: function () {
-                    var p = new MYAPPLICATION.product(100);
-                    console.log(this.calculateTax(p.getCost()));
-                }
-            };
-            ```
+        };
+        ```
 	* window object is the global object
-	* why is it bad idea to have vars/functions on a global level - collisions
 1. minification vs compression
-	* minification - making something shorter
-		* web technologies context: removing unnecessary stuff: ex. spaces, comments, making shorter variable names
+	* minification - removing unnecessary stuff: ex. spaces, comments, making shorter variable names
 	* compression: ex. Huffmans algorithm (most frequent words have shorter binary equivalent)
 ## SPA overview
 * SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
-* views can be replaced with other views: `<div> VIEW1 </div> -> <div> VIEW2 </div>`
 * desktop style UX - more fluent, faster etc
-* SPAs maintain a history of views that have been displayed
-* SPAs rely on many different technologies:
-	* DOM manipulation
-	* history
-	* routing
-	* ajax
-	* data binding
+* used DOM manipulation
 * hash identifies element by id: `<a href="#bookmark"/>`
-* `window.addEventListener('hashchange', () => console.log(window.location.hash))`
-	* bookmark could not exists, hashchange is still fired
-	* pretend to directory structure: `#/bookmark/1` - we could use if like if `window.location.hash === #/bookmark/1`
-* using fragment identifier for some purposes is a fundamental key to SPA
-	* SPA - is downloaded once by browser using fragment URL
-	* pretend each hash value corresponds to the other page
+* like directory structure: `#/bookmark/1
+* pretend each hash value corresponds to the other page
 # angularjs
 ## intro
 1. global namespace with angular module
