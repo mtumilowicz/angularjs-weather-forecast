@@ -8,6 +8,8 @@
 # ES6
 * you can think about ES6 as a javascript next version
 * ES5 supported by all browsers, ES6 needs polyfills and transpilers
+* you can think about ES6 as a javascript next version
+* ES5 supported by all browsers, ES6 needs polyfills and transpilers
 1. es6 compatibility with browsers
 	* compiler: ES6 -> ES5 (temporary until browsers will support es6)
 	* module loader: webpack, jspm
@@ -108,8 +110,7 @@
 1. each module has its own scope
 1. maps and sets
 	
-# notes 2
-## introduction
+# introduction
 1. transclusion - include one document inside another
 1. transpile - converting source code of one programming language to another (ES6 -> ES5)
 	* typescript is transpiled into javascript
@@ -144,7 +145,7 @@
 1. minification vs compression
 	* minification - removing unnecessary stuff: ex. spaces, comments, making shorter variable names
 	* compression: ex. Huffmans algorithm (most frequent words have shorter binary equivalent)
-## SPA overview
+# SPA overview
 * SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
 * desktop style UX - more fluent, faster etc
 * used DOM manipulation
@@ -497,7 +498,7 @@ app.config($routeProvider => {
 	* `$interval`
 	* `$filter`
 	* `$log`
-### factory
+## factory
 * define reusable tasks
 * share code or state between controllers
 * factories	
@@ -507,7 +508,7 @@ app.config($routeProvider => {
 	* can have dependencies
 * vs controller: controller is always new instance
 * angular.module('asd').factory('factoryName', () => ... var factory = {}; factory.getCustomers = () => ...; return factory;)	
-### service
+## service
 * similar to a factory
 * service function represents the returned object as opposed to a custom object like in a factory
 	* change "factory." into "this."
@@ -549,182 +550,3 @@ app.config($routeProvider => {
 	* both can be injected in controllers etc...
 1. using $log service
 	* $log.log('')
-# es6
-* you can think about ES6 as a javascript next version
-* ES5 supported by all browsers, ES6 needs polyfills and transpilers
-1. es6 compatibility with browsers
-	* compiler: ES6 -> ES5 (temporary until browsers will support es6)
-	* module loader: webpack, jspm
-	* server: nodejs
-1. `let`, `const`
-	* let - block scope
-	    ```
-        if (true) {
-        	var x = 5;
-        }
-        console.log(x) // print 5; let - not print (x is not defined)
-        
-        let x = 6;
-        if (true) {
-        	let x = 5;
-        	console.log(x) // print 5
-        }
-        console.log(x) // print 6
-        ```
-	* `const` - can't change reference
-1. hoisting in ES6
-	* hoisting - variables and function declarations are moved to the top of their scope before code execution
-	    ```
-   		age = 27; // declare now
-   		console.log(age);
-   		
-   		var age; // define later
-        ```
-	* `let`, `const` - no hoisting, but...
-	    ```
-        function doSmth() {
-        	age = 27;
-        }
-        
-        let age;
-        doSmth();
-        console.log(age) // print 27, in fact declaration is before definition
-        ```
-1. lambda, =>
-    ```
-   	var fn = () => {
-   			console.log('asd');
-   		};
-   	var fn = () => console.log('asd');
-   	var fn = (a) => 'asd';
-   	var fn = a => 'asd';
-    ```
-1. lambda and this
-	var fn2 = () => console.log(this) // global scope
-	
-	function fn() {
-		console.log(this);
-	}
-	button.addEventListener('click', fn); // refer to the caller - button; fn2 - get global scope - window; fn2 - keep the context no matter how and where you call it
-1. default parameters
-	* from left to right
-	* `var eq = (a, b = 0) => a === b`
-	* `var eq = (a, b = a) => a === b`
-1. object literal extensions
-	let name = 'Anna';
-	let age = 25;
-	
-	let obj = {
-		name, // nameXXX: name,
-		age
-	};
-	
-	console.log(obj); // print age: 25, name: Anna
-1. rest operator, ...
-    ```
-   	function sumUp(...toAdd) {
-   		...
-   	}
-    ```
-	* in short words, converts argument list into an array: `sumUp(1,2,3,4) -> sumUp([1,2,3,4])`
-1. spread operator, ...
-    ```
-   	let numbers = [1,2,3,4,5];
-   	console.log(...numbers); // 1 \n 2 \n 3 ...
-   	console.log(Math.max(...numbers)); // without ... NAN
-    ```
-1. the for-of loop
-    ```
-   	let xxx = [1, 2, 3, 4];
-   	for (let x of xxx) {
-   		console.log(x);
-   	}
-    ```
-1. template literals, `${}`
-    ```
-   	let name = 'max';
-   	let description = `Hello, Im ${name}`;
-    ```
-1. desctructuring array
-    * part
-        ```
-   	    let numbers = [1, 2, 3];
-   	    let [a, b] = numbers;
-   	    console.log(a); // 1
-   	    console.log(b); // 2
-   	    console.log(numbers) // 1, 2, 3
-        ```
-	* rest
-	    ```
- 	    let [a, ...b] = numbers;
- 	    console.log(b) // 2, 3
-        ```
-	* undefined if value has no equivalent
-	* empty space
-	    ```
-		let numbers = [1, 2, 3];
-		let [a, ,c] = numbers;
-		// a = 1, c = 3
-	    ```   
-1. desctructuring objects
-    ```
-   	let obj = {
-   		name: 'aa'
-   		age: 27
-   		greet: a => console.log('a');
-   	
-   	}
-   	let {name, age: age22} = obj; // age22 - alias
-    ```
-1. importing / exporting
-	* `external.js`
-		`export let keyValue = 1000; // function could also be exported`
-	* `script.js`
-	    ```
-   		import {keyValue} from './external.js';
-   		console.log(keyValue); // 1000
-        ```
-	* exported value is only reference (it is not copied)
-	* export default - only one, can have any value
-	* aliases (keyValue as xxx)
-	* as xxx (object key-value pair)
-	* class could be exported
-1. modules are always in Strict Mode (no need to define "use strict")
-1. each module has its own scope
-1. classes
-    ```
-   	class X {
-   		constructor(name) {
-   			this.name = name;
-   		}
-   	
-   		greet() {
-   			cl('asd' + this.name);
-   		}
-   	}
-   	
-   	let p = new Person();
-   	p.greet();
-    ```
-1. inheritance
-    * `class X extends Y { }`
-    * `super()` 
-    * overriding
-1. static methods allowed
-1. syntax
-	* this._name - private field
-	* get name() { } getter - bind function to property
-1. make object iterable
-	let person = {
-		hobbies: [...]
-		[Symbol.iterator]: x => {go through hobbies}
-	}
-	for (let hobby of person) {
-		cl(hobby); // go through hobbies
-	}
-1. maps and sets
-	* for (key / value of deck.keys() / values()) ...
-	* for (entry of deck / deck.entries()) ... ([key, value])
-	* WeakMap - only javascript obj - weak references
-	* set.has(...)
-	* WeakSet
