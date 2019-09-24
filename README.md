@@ -13,69 +13,12 @@
 	* module loader: webpack, jspm
 	* server: nodejs
 1. `let`, `const`
+    * no hoisting (moving declarations to the top of their scope)
 	* let - block scope
-	    ```
-        if (true) {
-        	var x = 5;
-        }
-        console.log(x) // print 5; let - not print (x is not defined)
-        
-        let x = 6;
-        if (true) {
-        	let x = 5;
-        	console.log(x) // print 5
-        }
-        console.log(x) // print 6
-        ```
 	* `const` - can't change reference
-1. hoisting in ES6
-	* hoisting - variables and function declarations are moved to the top of their scope before code execution
-	    ```
-   		age = 27; // declare now
-   		console.log(age);
-   		
-   		var age; // define later
-        ```
-	* `let`, `const` - no hoisting, but...
-	    ```
-        function doSmth() {
-        	age = 27;
-        }
-        
-        let age;
-        doSmth();
-        console.log(age) // print 27, in fact declaration is before definition
-        ```
-1. lambda, =>
-    ```
-   	var fn = () => {
-   			console.log('asd');
-   		};
-   	var fn = () => console.log('asd');
-   	var fn = (a) => 'asd';
-   	var fn = a => 'asd';
-    ```
-1. lambda and this
-	var fn2 = () => console.log(this) // global scope
-	
-	function fn() {
-		console.log(this);
-	}
-	button.addEventListener('click', fn); // refer to the caller - button; fn2 - get global scope - window; fn2 - keep the context no matter how and where you call it
-1. default parameters
-	* from left to right
-	* `var eq = (a, b = 0) => a === b`
-	* `var eq = (a, b = a) => a === b`
-1. object literal extensions
-	let name = 'Anna';
-	let age = 25;
-	
-	let obj = {
-		name, // nameXXX: name,
-		age
-	};
-	
-	console.log(obj); // print age: 25, name: Anna
+1. lambda, fat arrow (=>)
+    * `this` value of the enclosing lexical scope
+1. default parameters: `var eq = (a, b = 0) => a === b`
 1. rest operator, ...
     ```
    	function sumUp(...toAdd) {
@@ -102,26 +45,22 @@
    	let description = `Hello, Im ${name}`;
     ```
 1. desctructuring array
-    * part
-        ```
-   	    let numbers = [1, 2, 3];
-   	    let [a, b] = numbers;
-   	    console.log(a); // 1
-   	    console.log(b); // 2
-   	    console.log(numbers) // 1, 2, 3
-        ```
-	* rest
-	    ```
- 	    let [a, ...b] = numbers;
- 	    console.log(b) // 2, 3
-        ```
-	* undefined if value has no equivalent
-	* empty space
-	    ```
-		let numbers = [1, 2, 3];
-		let [a, ,c] = numbers;
-		// a = 1, c = 3
-	    ```   
+    ```
+    let numbers = [1, 2, 3];
+    let [a, b] = numbers;
+    console.log(a); // 1
+    console.log(b); // 2
+    ```
+    ```
+    let [a, ...b] = numbers;
+    console.log(b) // 2, 3
+    ```
+    ```
+    let numbers = [1, 2, 3];
+    let [a, ,c] = numbers;
+    // a = 1, c = 3
+    ``` 
+    * undefined if value has no equivalent  
 1. desctructuring objects
     ```
    	let obj = {
@@ -131,6 +70,26 @@
    	
    	}
    	let {name, age: age22} = obj; // age22 - alias
+    ```
+1. classes
+    ```
+   	class X {
+   		constructor(name) {
+   			this._name = name; // private field
+   		}
+   	
+   		get name() { // bind to property
+            return this._name;
+        }
+   
+        set name(newName) { // binds to property
+            this._name = newName;
+        }
+   	}
+   	
+   	let x = new X();
+   	console.log(x.name);
+    x.name = 'a';
     ```
 1. importing / exporting
 	* `external.js`
@@ -147,43 +106,7 @@
 	* class could be exported
 1. modules are always in Strict Mode (no need to define "use strict")
 1. each module has its own scope
-1. classes
-    ```
-   	class X {
-   		constructor(name) {
-   			this.name = name;
-   		}
-   	
-   		greet() {
-   			cl('asd' + this.name);
-   		}
-   	}
-   	
-   	let p = new Person();
-   	p.greet();
-    ```
-1. inheritance
-    * `class X extends Y { }`
-    * `super()` 
-    * overriding
-1. static methods allowed
-1. syntax
-	* this._name - private field
-	* get name() { } getter - bind function to property
-1. make object iterable
-	let person = {
-		hobbies: [...]
-		[Symbol.iterator]: x => {go through hobbies}
-	}
-	for (let hobby of person) {
-		cl(hobby); // go through hobbies
-	}
 1. maps and sets
-	* for (key / value of deck.keys() / values()) ...
-	* for (entry of deck / deck.entries()) ... ([key, value])
-	* WeakMap - only javascript obj - weak references
-	* set.has(...)
-	* WeakSet
 
 # notes
 1. routing, templates, controllers
