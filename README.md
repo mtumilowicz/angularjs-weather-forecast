@@ -7,139 +7,6 @@
 * running scripts from package.json - `npm run-script <command> [--silent] [-- <args>...]`
 
 # notes
-1. DOM - representation of html inside web browser memory
-1. MV*
-	* Model - data (var name = 'a')
-	* View - html (what user sees)
-	* bind: Model <-> View - whatever happens to the model affects view & one another
-	* angulajs has a thing that can bind model to the view - watchers and the digest loop
-1. html - custom attributes
-	* attribute: `<h1 style = "asd">` - style is attribute
-	* custom attribute: `<h1 customAttribute = 'asd'>`
-		* `console.log($("h1").attr("customAttribute")) // asd`
-		* `ng-` - custom attribute, that angular may know
-1. the global namespace
-	* namespace is a container for variables and functions
-	* JavaScript doesn’t provide namespace by default - anything we create 
-	is global be default (global namespace pollution)
-		* global
-		    ```
-            function calculateTax(item) {
-                return item.price * 1.40;
-            }
-            
-            var product = function (cost) {
-                this.cost = cost;
-                this.getCost = function () {
-                    return this.cost;
-                };
-            };
-            
-            function doTaxCalculations() {
-                var p = new product(100);
-                console.log(calculateTax(p.getCost()));
-            }
-            ```
-		* namespace
-		    ```
-            var MYAPPLICATION = {
-                calculateTax: function (item) {
-                    return item * 1.40;
-                },
-                product: function (cost) {
-                    this.cost = cost;
-                    this.getCost = function () {
-                        return this.cost;
-                    };
-                },
-                doTaxCalculations: function () {
-                    var p = new MYAPPLICATION.product(100);
-                    console.log(this.calculateTax(p.getCost()));
-                }
-            };
-            ```
-	* window object is the global object
-	* why is it bad idea to have vars/functions on a global level?
-	    * collisions
-1. global namespace with angular module
-	* `var myApp = angular.module('myApp', []);` // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
-	* then in html below document attribute: ng-app="myApp" - matches to a module name
-		* myApp.controller('mainController', () => {
-			
-		})
-		* binding controller: ng-controller="mainController"
-1. dependency injection - giving a function an object rather than creating an object inside a function
-	```
- 	function xxx() {
- 		let p = new Yyy(...) // function is dependent on HOW the object is created
- 		...
- 	}
-    ```
-1. scope service
-	* all angularjs services starts with `$`
-	* `$scope` is a complex object
-	* `$scope` - bind a model to the view
-	    ```
-   		myApp.controller('mainController', ($scope) => { // angularjs inject it to the function
-   			$scope.name = 'asd'; // add a property name with value 'asd', we can also add a function
-   		})
-        ```
-        and then in view: `{{name}}`
-        * code given below will change after 3 seconds value name in the view from 'xxx' to 'yyy'
-            ```
-			$scope.name = 'xxx';
-			$timeout(function() {
-				$scope.name = 'yyy';
-			}, 3000);
-			```
-	* `$scope` defines data that will go back and forth between view and js script
-	* `$scope` is new in every controller request (by DI)
-1. how does angularjs do dependency injection?
-	* suppose we have `var f = function(a, b)`
-	* `angular.injector().annotate(f)` returns `["a", "b"]` (array of param names)
-	* ex. `params.includes("$scope")` and could inject it
-	* minification could change param names `$scope -> a`
-	    * minification does not touch strings
-	* angularjs offers another approach to DI
-	    * `myApp.controller('mainController', ($scope) => ...`
-	    * `myApp.controller('mainController', ["$scope", scope => ...]`
-1. useful angular services are
-    * `$scope`
-    * `$log`
-    * `$http`
-    * `$timeout`
-1. minification vs compression
-	* minification - making something shorter
-		* web technologies context: removing unnecessary stuff: ex. spaces, comments, making shorter variable names
-	* compression: ex. Huffmans algorithm (most frequent words have shorter binary equivalent)
-1. directives and two way data binding
-	* directives - changes DOM - ex. hide this
-		* `ng-app`
-		* `ng-controller`
-		* two direction binding: `<input type="text" ng-model="handle"/>` and in controller `$scope.handle = ...`
-1. event loop - js waits and listen for events (click, keypress, mouseover) in an event loop
-	* angularjs is extending event loop by adding angular context
-		* watchers - tracking and watch all values that can change watchlist (old value, new value)
-			$scope.$watch('handle', (new, old) => {})
-			* out of angular context
-				setTimeout(() => {$scope.handle = 'aasdsd'; cl('scope changed!');}, 3000); // after 3 second will be logged, but not changed
-				* all put in $scope.$apply( () => ...)
-				* angularjs is usually put everything in $scope.$apply instead of you; it provides $timeout - you have to buy all with angularjs
-		* digest loop - checked if something has changed? - it compared old value and new value from watchlist
-1. common directives
-	* `ng-if="condition"` - hide / show
-	* `ng-show / ng-hide ="condition"` - hide / show
-	* `ng-if` vs `ng-show`
-		* `ng-if` - removes or recreates
-		* `ng-show` - shows or hides
-	* ng-class="{ 'alert-warning': handle.length < characters }" - decide what class to choose (alert, or OK); separate by comma
-	* `ng-repeat="rule in rules"`
-	* `ng-click="function from scope"`
-	* `ng-clock` - prevent the AngularJS html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading
-1. `XMLHttpRequest`
-	* can make request
-	* angularjs equivalent - `$http`
-	* `$http.get('/api').success(r => $scope.rules = result).error(e, status => )`
 1. routing, templates, controllers
 	* `$location`: `$location.path()` - after #, `#/bookmark/1 -> /bookmark/1`
 	* `ngRoute`, `$routeProvider` - specifies route - what should I do when I see particular thing in hash (pattern)
@@ -216,9 +83,6 @@
 			}
 		* in the view
 			{{formattedAddress({ aperson: personObject })}} // the same param as in the view
-1. repeated directives
-	* controller: `$scope.people = [person1, person2, person3, ...]`
-	* directive: `ng-repeat="person in people"`
 1. compile and link
 	* compile - converting code to a lower-level language
 	* linker - then linker generates a file the computer will actually interact with
@@ -252,6 +116,58 @@
 	
 # notes 2
 ## introduction
+1. DOM - representation of html inside web browser memory
+1. html - custom attributes
+	* attribute: `<h1 style = "asd">` - style is attribute
+	* custom attribute: `<h1 customAttribute = 'asd'>`
+		* `console.log($("h1").attr("customAttribute")) // asd`
+		* `ng-` - custom attribute, that angular may know
+1. the global namespace
+	* namespace is a container for variables and functions
+	* JavaScript doesn’t provide namespace by default - anything we create 
+	is global be default (global namespace pollution)
+		* global
+		    ```
+            function calculateTax(item) {
+                return item.price * 1.40;
+            }
+            
+            var product = function (cost) {
+                this.cost = cost;
+                this.getCost = function () {
+                    return this.cost;
+                };
+            };
+            
+            function doTaxCalculations() {
+                var p = new product(100);
+                console.log(calculateTax(p.getCost()));
+            }
+            ```
+		* namespace
+		    ```
+            var MYAPPLICATION = {
+                calculateTax: function (item) {
+                    return item * 1.40;
+                },
+                product: function (cost) {
+                    this.cost = cost;
+                    this.getCost = function () {
+                        return this.cost;
+                    };
+                },
+                doTaxCalculations: function () {
+                    var p = new MYAPPLICATION.product(100);
+                    console.log(this.calculateTax(p.getCost()));
+                }
+            };
+            ```
+	* window object is the global object
+	* why is it bad idea to have vars/functions on a global level - collisions
+1. minification vs compression
+	* minification - making something shorter
+		* web technologies context: removing unnecessary stuff: ex. spaces, comments, making shorter variable names
+	* compression: ex. Huffmans algorithm (most frequent words have shorter binary equivalent)
 ## SPA overview
 * SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
 * views can be replaced with other views: `<div> VIEW1 </div> -> <div> VIEW2 </div>`
@@ -272,6 +188,38 @@
 	* pretend each hash value corresponds to the other page
 # angularjs
 ## intro
+1. global namespace with angular module
+	* `var myApp = angular.module('myApp', []);` // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
+	* then in html below document attribute: ng-app="myApp" - matches to a module name
+		* myApp.controller('mainController', () => {
+			
+		})
+		* binding controller: ng-controller="mainController"
+1. dependency injection - giving a function an object rather than creating an object inside a function
+	```
+ 	function xxx() {
+ 		let p = new Yyy(...) // function is dependent on HOW the object is created
+ 		...
+ 	}
+    ```
+1. how does angularjs do dependency injection?
+	* suppose we have `var f = function(a, b)`
+	* `angular.injector().annotate(f)` returns `["a", "b"]` (array of param names)
+	* ex. `params.includes("$scope")` and could inject it
+	* minification could change param names `$scope -> a`
+	    * minification does not touch strings
+	* angularjs offers another approach to DI
+	    * `myApp.controller('mainController', ($scope) => ...`
+	    * `myApp.controller('mainController', ["$scope", scope => ...]`
+1. event loop - js waits and listen for events (click, keypress, mouseover) in an event loop
+	* angularjs is extending event loop by adding angular context
+		* watchers - tracking and watch all values that can change watchlist (old value, new value)
+			$scope.$watch('handle', (new, old) => {})
+			* out of angular context
+				setTimeout(() => {$scope.handle = 'aasdsd'; cl('scope changed!');}, 3000); // after 3 second will be logged, but not changed
+				* all put in $scope.$apply( () => ...)
+				* angularjs is usually put everything in $scope.$apply instead of you; it provides $timeout - you have to buy all with angularjs
+		* digest loop - checked if something has changed? - it compared old value and new value from watchlist
 1. enabling angularjs
 	* `ng-app`: enables angularjs in the whole shell page (notifies angular that it will be angular page)
 	* `ng-model="name"` - directive to bind with controller 
@@ -286,6 +234,11 @@
 	* `$scope` is injected into a controller
 		* acts as the ViewModel
 		* views bind to scope properties and functions
+1. MV*
+	* Model - data (var name = 'a')
+	* View - html (what user sees)
+	* bind: Model <-> View - whatever happens to the model affects view & one another
+	* angulajs has a thing that can bind model to the view - watchers and the digest loop
 1. key players
 	* module - containers for components (controllers, services, directives)
 	* routes - how to determine which view should be loaded (route is path, urls in browser); 
@@ -330,11 +283,30 @@
     ```
 * `ng-show="true"`
 * `ng-class="data.status"`
+1. common directives
+	* `ng-if="condition"` - hide / show
+	* `ng-show / ng-hide ="condition"` - hide / show
+	* `ng-if` vs `ng-show`
+		* `ng-if` - removes or recreates
+		* `ng-show` - shows or hides
+	* ng-class="{ 'alert-warning': handle.length < characters }" - decide what class to choose (alert, or OK); separate by comma
+	* `ng-repeat="rule in rules"`
+	* `ng-click="function from scope"`
+	* `ng-clock` - prevent the AngularJS html template from being briefly displayed by the browser in its raw (uncompiled) form while your application is loading
+1. `XMLHttpRequest`
+	* can make request
+	* angularjs equivalent - `$http`
+	* `$http.get('/api').success(r => $scope.rules = result).error(e, status => )`
 1. iterating over data
     ```
     ng-init="names=[{name:'John', city:'Chandler'}, ...]">
    	<li ng-repeat="person in persons"> {{ person.name }} </li>
     ```
+1. directives and two way data binding
+	* directives - changes DOM - ex. hide this
+		* `ng-app`
+		* `ng-controller`
+		* two direction binding: `<input type="text" ng-model="handle"/>` and in controller `$scope.handle = ...`
 1. role of directives
 	* directives - markers on a DOM element that tell AngularJS HTML compiler ($compile)
 		to attach a specified behaviour to that DOM element
@@ -534,6 +506,30 @@ app.config($routeProvider => {
 * similar to a factory
 * service function represents the returned object as opposed to a custom object like in a factory
 	* change "factory." into "this."
+1. scope service
+	* all angularjs services starts with `$`
+	* `$scope` is a complex object
+	* `$scope` - bind a model to the view
+	    ```
+   		myApp.controller('mainController', ($scope) => { // angularjs inject it to the function
+   			$scope.name = 'asd'; // add a property name with value 'asd', we can also add a function
+   		})
+        ```
+        and then in view: `{{name}}`
+        * code given below will change after 3 seconds value name in the view from 'xxx' to 'yyy'
+            ```
+			$scope.name = 'xxx';
+			$timeout(function() {
+				$scope.name = 'yyy';
+			}, 3000);
+			```
+	* `$scope` defines data that will go back and forth between view and js script
+	* `$scope` is new in every controller request (by DI)
+1. useful angular services are
+    * `$scope`
+    * `$log`
+    * `$http`
+    * `$timeout`
 1. ajax calls from factory / service
 	* ajs can be used to make Ajax calls
 	* $http, $resource
