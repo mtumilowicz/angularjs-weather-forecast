@@ -107,117 +107,12 @@
 1. modules are always in Strict Mode (no need to define "use strict")
 1. each module has its own scope
 1. maps and sets
-
-# notes
-1. routing, templates, controllers
-	* `$location`: `$location.path()` - after #, `#/bookmark/1 -> /bookmark/1`
-	* `ngRoute`, `$routeProvider` - specifies route - what should I do when I see particular thing in hash (pattern)
-		```
-		$routeProvider
-			.when('/', {
-				templateUrl: 'pages/main.html',
-				controller: 'mainController'
-			})
-			.when('/second', {
-				templateUrl: 'pages/second.html', // downloaded only when switched to appropriate URL
-				controller: 'secondController'
-			})
-			.when('/second/:num/', { // pattern matching, second - slash - something
-				templateUrl: 'pages/second.html',
-				controller: 'secondController'
-			})
-        ```
-	* instead `ng-controller` use `ng-view` which connects view and controllers
-		* `ng-view` used to SPA - replace content with routing provider definitions
-	* `$routeParams`
-	* why? downloaded only once and then the appropriate parts are only downloaded
-1. singletons and services
-	* singleton - one and only copy of an object; `$log` is singleton
-	* scope - scope is a child scope it is inherited from root scope; it is not exactly a singleton
-		* new copy of scope to each injection
-	* service
-		`myApp.service('nameService', () => { ... })`
-		* how to access service in controller - DI: `($scope, $log, nameService)`
-		* singleton
-		* SPA - the same js memory space: we can share data and services across pages
-1. reusable components
-	copy paste -> <search-result>...</search-result>
-1. variable worlds and normalization
-	* normalize - make consistent to a standard
-	* cant use dashes in javascript
-	* angularjs - normalization: converts string into camel case: search-result -> (in code) -> searchResult
-		* in both directions
-1. creating directives
-	* instead of
-		<a href="#" class="list-group-item">
-			<h4 class="list-group-item-heading">Doe, John</h4>
-			<p class="list-group-item-text"> ....
-			</p>
-		</a>
-	* we can use directive
-		myApp.directive("searchResult", () => { template: 'point higher', replace: true }) // replace: true <search-result> is gone
-	* then in html:
-		<search-result></search-result>
-	* custom attribute
-		<div search-result></div>
-	* restrict: 'AE' A - attribute, e-element; by default: AE; not supported by default: ex. class, comment
-1. templates
-	* content of template: searchResult.html
-	* then in directive
-		template -> templateUrl: 'directives/searchresult.html'
-1. scope
-	* isolate scope - in directive: scope: { } - instead of taking scope from the controller; good practice
-		* if you want some from controller scope: <search-result person-name="{{ person.name }}"></search-result>
-		* scope: {
-			personName: "@" // matches person-name; expect text; one way binding
-		}
-		* then in view: {{ personName }}
-	* person-object="person" whole object - how to say to angular that we need object
-		* scope: {
-			personObject: "=" // two way binding
-		}
-	* instead of object we want to have access to function
-		$scope.formattedAddress = (aperson) => { }
-		* in view - another attribute: formatted-address-function="formattedAddress(person)"
-		* in directive
-			scope: {
-				formattedAddressFunction: "&"
-			}
-		* in the view
-			{{formattedAddress({ aperson: personObject })}} // the same param as in the view
-1. compile and link
-	* compile - converting code to a lower-level language
-	* linker - then linker generates a file the computer will actually interact with
-	* angularjs directives are not the same
-	* angularjs
-		* compile (initialize)
-			in directive
-				compile: (elem, attrs) => {
-					cl('compile...')
-					cl(elem.html())
-					
-					return {
-						pre: (scope, element, attrs) => ... // not safe
-						post: (scope, element, attrs) => ... // we can do changes to actually generated html
-					
-					}
-				}
-		* linker (post - onbind)
-1. understanding linking
-	* link: (scope, element, attrs) => {}
-1. transclusion
-	* include one document inside another
-	* in template
-		<search-...> asd </search-...>
-	* <ng-transclude></ng-transclude>
-	* in directive
-		transclude: true
-	* the asd is seen
-1. transpile - converting source code of one programming language to another (ES6 -> ES5)
-	* typescript is transpiled into javascript
 	
 # notes 2
 ## introduction
+1. transclusion - include one document inside another
+1. transpile - converting source code of one programming language to another (ES6 -> ES5)
+	* typescript is transpiled into javascript
 1. DOM - representation of html inside web browser memory
 1. html - custom attributes
 	* attribute: `<h1 style = "asd">` - style is attribute
@@ -258,6 +153,7 @@
 * pretend each hash value corresponds to the other page
 # angularjs
 ## intro
+* angularjs - normalization: converts string into camel case: search-result -> (in code) -> searchResult
 1. global namespace with angular module
 	* `var myApp = angular.module('myApp', []);` // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
 	* then in html below document attribute: ng-app="myApp" - matches to a module name
@@ -325,6 +221,7 @@
 	* js has no native support for data binding
 	* two-way data binding can lead to significant reduction in code
 ## directives
+* restrict: 'AE' A - attribute, e-element; by default: AE; not supported by default: ex. class, comment
 * directives enhance html with new features
 * dom manipulation
 	* `ng-hide`
@@ -489,6 +386,26 @@
 		It can optionally contain a DOM element id when templates are defined in <script> tags.
 	* controller - Used to define the controller that will be associated with the directive template.
 	* link - Function used for DOM manipulation tasks.
+1. scope
+	* isolate scope - in directive: scope: { } - instead of taking scope from the controller; good practice
+		* if you want some from controller scope: <search-result person-name="{{ person.name }}"></search-result>
+		* scope: {
+			personName: "@" // matches person-name; expect text; one way binding
+		}
+		* then in view: {{ personName }}
+	* person-object="person" whole object - how to say to angular that we need object
+		* scope: {
+			personObject: "=" // two way binding
+		}
+	* instead of object we want to have access to function
+		$scope.formattedAddress = (aperson) => { }
+		* in view - another attribute: formatted-address-function="formattedAddress(person)"
+		* in directive
+			scope: {
+				formattedAddressFunction: "&"
+			}
+		* in the view
+			{{formattedAddress({ aperson: personObject })}} // the same param as in the view
 ## sort, filter, formatting
 * use pipe `|`
 * `ng-repeat="cust in customers | orderBy:'name'"`
@@ -529,6 +446,7 @@
 * customers.html <- /customers -> customersController
 * relies on ngRoute module
 * configured using $routeProvider
+* specifies route - what should I do when I see particular thing in hash (pattern)
 ### configuration
 ```
 var app = angular.module('customersApp', ['ngRoute']);
@@ -543,6 +461,23 @@ app.config($routeProvider => {
 
 });
 ```
+* `$location`: `$location.path()` - after #, `#/bookmark/1 -> /bookmark/1`
+* `ngRoute`, `$routeProvider` - specifies route - what should I do when I see particular thing in hash (pattern)
+	```
+	$routeProvider
+		.when('/', {
+			templateUrl: 'pages/main.html',
+			controller: 'mainController'
+		})
+		.when('/second', {
+			templateUrl: 'pages/second.html', // downloaded only when switched to appropriate URL
+			controller: 'secondController'
+		})
+		.when('/second/:num/', { // pattern matching, second - slash - something
+			templateUrl: 'pages/second.html',
+			controller: 'secondController'
+		})
+    ```
 * route parameter: `when('/editCustomer/:customerId', ...`
     * then in controller we inject `$routeParams` and we use name: `$routeParams.customerId`
 * ng-view: <div ng-view> </div>
