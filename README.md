@@ -180,7 +180,10 @@
     * everything within AngularJS (directives, filters, controllers, services, ...) 
     is created and wired using dependency injection
 * **Injector** - dependency injection container
-* **Module** - a container for the different parts of an app including controllers, services, filters, directives which configures the Injector
+* **Module** - a container for the different parts of an app including controllers, services, 
+filters, directives which configures the Injector
+    * when AngularJS starts, it will use the configuration of the module with the name defined by the 
+    `ng-app` directive, including the configuration of all modules that this module depends on
 * **Service** - reusable business logic independent of views
 
 
