@@ -95,7 +95,7 @@
 	* `$scope` defines data that will go back and forth between view and js script
 	* `$scope` is new in every controller request (by DI)
 1. how does angularjs do dependency injection?
-	* suppose we have v`ar f = function(a, b)`
+	* suppose we have `var f = function(a, b)`
 	* `angular.injector().annotate(f)` returns `["a", "b"]` (array of param names)
 	* ex. `params.includes("$scope")` and could inject it
 	* minification could change param names `$scope -> a`
@@ -140,14 +140,6 @@
 	* can make request
 	* angularjs equivalent - `$http`
 	* `$http.get('/api').success(r => $scope.rules = result).error(e, status => )`
-1. SPA & hash 
-	* hash identifies element by id: `<a href="#bookmark"/>`
-	* `window.addEventListener('hashchange', () => console.log(window.location.hash))`
-		* bookmark could not exists, hashchange is still fired
-		* pretend to directory structure: `#/bookmark/1` - we could use if like if `window.location.hash === #/bookmark/1`
-	* using fragment identifier for some purposes is a fundamental key to SPA
-		* SPA - is downloaded once by browser using fragment URL
-		* pretend each hash value corresponds to the other page
 1. routing, templates, controllers
 	* `$location`: `$location.path()` - after #, `#/bookmark/1 -> /bookmark/1`
 	* `ngRoute`, `$routeProvider` - specifies route - what should I do when I see particular thing in hash (pattern)
@@ -259,22 +251,41 @@
 	* typescript is transpiled into javascript
 	
 # notes 2
-1. SPA overview
-	* SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
-	* views can be replaced with other views: `<div> VIEW1 </div> -> <div> VIEW2 </div>`
-	* desktop style UX - more fluent, faster etc
-	* SPAs maintain a history of views that have been displayed
-	* SPAs rely on many different technologies:
-		* DOM manipulation
-		* history
-		* routing
-		* ajax
-		* data binding
+## introduction
+## SPA overview
+* SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
+* views can be replaced with other views: `<div> VIEW1 </div> -> <div> VIEW2 </div>`
+* desktop style UX - more fluent, faster etc
+* SPAs maintain a history of views that have been displayed
+* SPAs rely on many different technologies:
+	* DOM manipulation
+	* history
+	* routing
+	* ajax
+	* data binding
+* hash identifies element by id: `<a href="#bookmark"/>`
+* `window.addEventListener('hashchange', () => console.log(window.location.hash))`
+	* bookmark could not exists, hashchange is still fired
+	* pretend to directory structure: `#/bookmark/1` - we could use if like if `window.location.hash === #/bookmark/1`
+* using fragment identifier for some purposes is a fundamental key to SPA
+	* SPA - is downloaded once by browser using fragment URL
+	* pretend each hash value corresponds to the other page
+# angularjs
+## intro
 1. enabling angularjs
 	* `ng-app`: enables angularjs in the whole shell page (notifies angular that it will be angular page)
 	* `ng-model="name"` - directive to bind with controller 
 	    * `<input type="text" ng-model="name" />`
 	    * `{{ name }}`
+1. angularjs relies on two key architecture patterns:
+	* model-view-controller
+	* model-view-viewModel
+	* mvc + mvvm = mv*
+	* request -> controller <-> model 
+				 controller <-> $scope (viewModel) <-> view -> response
+	* `$scope` is injected into a controller
+		* acts as the ViewModel
+		* views bind to scope properties and functions
 1. key players
 	* module - containers for components (controllers, services, directives)
 	* routes - how to determine which view should be loaded (route is path, urls in browser); 
@@ -288,67 +299,57 @@
 		* factory
 		* service
 1. data binding overview
-	* js no native support for data binding
+	* js has no native support for data binding
 	* two-way data binding can lead to significant reduction in code
-1. directives and expressions
-	* directives teach html new tricks
-	* dom manipulation
-		* `ng-hide`
-		* `ng-repeat`
-		* `ng-show`
-		* `ng-view`
-	* data binding
-		* `ng-bind`
-		* `ng-init`
-		* `ng-model`
-	* events
-		* `ng-click`
-		* `ng-keypress`
-		* `ng-mouseenter`
-	* modules / controllers
-		* `ng-app`
-		* `ng-controller`
-	* most directives are used as attributes
-	* expressions in binding markup: `{{ xxx }}`
-1. additional directives
-	* `ng-clock` - dont load until is ready
-	* switch
-	    ```
-        ng-switch="asd"
-            ng-switch-when="..."
-            ng-switch-default
-        ```
-	* `ng-show="true"`
-	* `ng-class="data.status"`
+## directives
+* directives enhance html with new features
+* dom manipulation
+	* `ng-hide`
+	* `ng-repeat`
+	* `ng-show`
+	* `ng-view`
+* data binding
+	* `ng-bind`
+	* `ng-init`
+	* `ng-model`
+* events
+	* `ng-click`
+	* `ng-keypress`
+	* `ng-mouseenter`
+* modules / controllers
+	* `ng-app`
+	* `ng-controller`
+* most directives are used as attributes
+* expressions in binding markup: `{{ xxx }}`
+* `ng-clock` - dont load until is ready
+* switch
+    ```
+    ng-switch="asd"
+        ng-switch-when="..."
+        ng-switch-default
+    ```
+* `ng-show="true"`
+* `ng-class="data.status"`
 1. iterating over data
     ```
     ng-init="names=[{name:'John', city:'Chandler'}, ...]">
    	<li ng-repeat="person in persons"> {{ person.name }} </li>
     ```
-1. sort, filter, formatting
-	* use pipe `|`
-	* `ng-repeat="cust in customers | orderBy:'name'"`
-	* key angularjs filters
-		* `currency`
-		* `date: cust.joined | date:'yyyy'`
-		* `filter`
-		* `json`
-		* `limitTo`: `ng-repeat="cust in customers | limitTo: 2`
-		* `lowercase`
-		* `number`
-		* `orderBy`
-		* `uppercase`
-	* `ng-click="sortBy='name';reverse=!reverse"`
-	* `ng-repeat=cust in customers | orderBy:sortBy:reverse"`
-1. angularjs relies on two key architecture patterns:
-	* model-view-controller
-	* model-view-viewModel
-	* mvc + mvvm = mv*
-	* request -> controller <-> model 
-				 controller <-> $scope (viewModel) <-> view -> response
-	* `$scope` is injected into a controller
-		* acts as the ViewModel
-		* views bind to scope properties and functions
+## sort, filter, formatting
+* use pipe `|`
+* `ng-repeat="cust in customers | orderBy:'name'"`
+* key angularjs filters
+	* `currency`
+	* `date: cust.joined | date:'yyyy'`
+	* `filter`
+	* `json`
+	* `limitTo`: `ng-repeat="cust in customers | limitTo: 2`
+	* `lowercase`
+	* `number`
+	* `orderBy`
+	* `uppercase`
+* `ng-click="sortBy='name';reverse=!reverse"`
+* `ng-repeat=cust in customers | orderBy:sortBy:reverse"`
 1. `ng-controller` directive
 	* `ng-controller="SimpleController"`
 	* all scope values can be referenced from html inside the tag
@@ -369,60 +370,58 @@
 		* take module created before: demoApp.controller("SimpleController", function($scope) => )
 		* angular.module('demoApp').controller(...)
 		* SimpleController.$inject = ['$scope']
-1. routes - used for navigation
-	* angularjs routes associate a view with a controller
-	* customers.html <- /customers -> customersController
-	* relies on ngRoute module
-	* configured using $routeProvider
-1. configuring routes
-	var app = angular.module('customersApp', ['ngRoute']);
-	app.config($routeProvider => {
-		$routeProvider
-			.when('/',
-				{
-					controller: 'CustomersController',
-					templateUrl: '/app/views/...'
-			})
-			.otherwise({ redirectTo: '/' });
-	
-	});
-	* route parameter: when('/editCustomer/:customerId', ...
-		* then in controller we inject $routeParams and we use name: $routeParams.customerId
-	* ng-view: <div ng-view> </div>
-1. factories, services
-	* singletons that perform re-useable tasks:
-		* ajax calls
-		* business rules
-		* calculations
-		* share data between controllers
-	* built-in services:
-		* $http
-		* $timeout
-		* $window
-		* $location
-		* $q
-		* $rootScope
-		* $interval
-		* $filter
-		* $log
-1. creating factory
-	* define reusable tasks
-	* share code or state between controllers
-	* factories	
-		* create and return a custom object
-		* created usinmg the module.factory() function
-		* can be injected into other components
-		* can have dependencies
-	* vs controller: controller is everytime new instance
-	* angular.module('asd').factory('factoryName', () => ... var factory = {}; factory.getCustomers = () => ...; return factory;)
-	
-1. service
-	* similar to a factory as far as functionality
-	* service function represents the returned oject as opposed to a custom object like in a factory
-		* change "factory." into "this."
-1. value: module.value(key, value); constant: module.constant(key, value)
-	* constant vs value - value can't be injected into config(); constant - can be injected into config()
-	* both can be injected in controllers etc...
+## routes - used for navigation
+* angularjs routes associate a view with a controller
+* customers.html <- /customers -> customersController
+* relies on ngRoute module
+* configured using $routeProvider
+### configuration
+```
+var app = angular.module('customersApp', ['ngRoute']);
+app.config($routeProvider => {
+	$routeProvider
+		.when('/',
+			{
+				controller: 'CustomersController',
+				templateUrl: '/app/views/...'
+		})
+		.otherwise({ redirectTo: '/' });
+
+});
+```
+* route parameter: `when('/editCustomer/:customerId', ...`
+    * then in controller we inject `$routeParams` and we use name: `$routeParams.customerId`
+* ng-view: <div ng-view> </div>
+## factories, services
+* singletons that perform re-useable tasks:
+	* ajax calls
+	* business rules
+	* calculations
+	* share data between controllers
+* built-in services:
+	* `$http`
+	* `$timeout`
+	* `$window`
+	* `$location`
+	* `$q`
+	* `$rootScope`
+	* `$interval`
+	* `$filter`
+	* `$log`
+### factory
+* define reusable tasks
+* share code or state between controllers
+* factories	
+	* create and return a custom object
+	* created using the module.factory() function
+	* can be injected into other components
+	* can have dependencies
+* vs controller: controller is always new instance
+* angular.module('asd').factory('factoryName', () => ... var factory = {}; factory.getCustomers = () => ...; return factory;)	
+### service
+* similar to a factory
+* service function represents the returned object as opposed to a custom object like in a factory
+	* change "factory." into "this."
 1. ajax calls from factory / service
 	* ajs can be used to make Ajax calls
 	* $http, $resource
@@ -432,15 +431,11 @@
 		* asynchronous requests
 		* relies on $q service's deferred/promise APIs
 		* access data by calling then(), success(), error()
+1. value: module.value(key, value); constant: module.constant(key, value)
+	* constant vs value - value can't be injected into config(); constant - can be injected into config()
+	* both can be injected in controllers etc...
 1. using $log service
 	* $log.log('')
-1. animations
-	* ngClass - add and remove
-	* ngHide/ngShow - add and remove
-	* ngInclude - enter and leave
-	* ngRepeat - enter leave move
-	* ngSwitch - enter leave
-	* ngView - enter leave
 1. role of directives
 	* directives - markers on a DOM element that tell AngularJS HTML compiler ($compile)
 		to attach a specified behaviour to that DOM element
