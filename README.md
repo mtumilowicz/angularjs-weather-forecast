@@ -172,6 +172,10 @@
 * **Filter** - formats the value of an expression for display to the user
 * **View** - what the user sees (the DOM)
 * **Data Binding** - sync data between the model and the view
+    * the template is compiled on the browser into live view
+    * Any changes to the view are immediately reflected in the model, and 
+    any changes in the model are propagated to the view
+    * model is the single-source-of-truth for the application state
 * **Controller** - the business logic behind views
     * exposes variables and functionality to expressions and directives
     * `InvoiceController as invoice` - instantiate the controller and save it in the variable 
@@ -182,6 +186,7 @@
 * **Injector** - dependency injection container
 * **Module** - a container for the different parts of an app including controllers, services, 
 filters, directives which configures the Injector
+    * `angular.module('invoice2', ['finance2'])` - invoice2 depends on the finance2
     * when AngularJS starts, it will use the configuration of the module with the name defined by the 
     `ng-app` directive, including the configuration of all modules that this module depends on
 * **Service** - reusable business logic independent of views
