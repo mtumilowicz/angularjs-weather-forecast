@@ -141,7 +141,7 @@
 	* angularjs equivalent - `$http`
 	* `$http.get('/api').success(r => $scope.rules = result).error(e, status => )`
 1. SPA & hash 
-	* hash identifies by element by id: `<a href="#bookmark"/>`
+	* hash identifies element by id: `<a href="#bookmark"/>`
 	* `window.addEventListener('hashchange', () => console.log(window.location.hash))`
 		* bookmark could not exists, hashchange is still fired
 		* pretend to directory structure: `#/bookmark/1` - we could use if like if `window.location.hash === #/bookmark/1`
@@ -175,8 +175,8 @@
 	* scope - scope is a child scope it is inherited from root scope; it is not exactly a singleton
 		* new copy of scope to each injection
 	* service
-		myApp.service('nameService', () => { ... })
-		* how to access service in controller - DI: ($scope, $log, nameService)
+		`myApp.service('nameService', () => { ... })`
+		* how to access service in controller - DI: `($scope, $log, nameService)`
 		* singleton
 		* SPA - the same js memory space: we can share data and services across pages
 1. reusable components
@@ -201,8 +201,7 @@
 		<div search-result></div>
 	* restrict: 'AE' A - attribute, e-element; by default: AE; not supported by default: ex. class, comment
 1. templates
-	* searchresult.html
-		content of template
+	* content of template: searchResult.html
 	* then in directive
 		template -> templateUrl: 'directives/searchresult.html'
 1. scope
@@ -226,9 +225,8 @@
 		* in the view
 			{{formattedAddress({ aperson: personObject })}} // the same param as in the view
 1. repeated directives
-	* controller
-		$scope.people = [{}, {}, {}]
-	* ng-repeat="person in people" in directive
+	* controller: `$scope.people = [person1, person2, person3, ...]`
+	* directive: `ng-repeat="person in people"`
 1. compile and link
 	* compile - converting code to a lower-level language
 	* linker - then linker generates a file the computer will actually interact with
@@ -261,96 +259,102 @@
 	* typescript is transpiled into javascript
 	
 # notes 2
-1. spa overview
-	* spas allow different views (screens) to be loaded into SHELL PAGE as the user interacts with the page
-	* views can be replaced with other views
-		<div> VIEW1 </div> -> <div> VIEW2 </div>
+1. SPA overview
+	* SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
+	* views can be replaced with other views: `<div> VIEW1 </div> -> <div> VIEW2 </div>`
 	* desktop style UX - more fluent, faster etc
-	* spas maintain a histor of views that have been displayed
-	* spas rely on many different technologies:
+	* SPAs maintain a history of views that have been displayed
+	* SPAs rely on many different technologies:
 		* DOM manipulation
 		* history
 		* routing
 		* ajax
 		* data binding
 1. enabling angularjs
-	* ng-app to enable angularjs in the whole shell page (notify angular that it will be angular page)
-	* ng-model="name" - directive to bind with controller
-		<input type="text" ng-model="name" /> {{ name }}
+	* `ng-app`: enables angularjs in the whole shell page (notifies angular that it will be angular page)
+	* `ng-model="name"` - directive to bind with controller 
+	    * `<input type="text" ng-model="name" />`
+	    * `{{ name }}`
 1. key players
 	* module - containers for components (controllers, services, directives)
-	* routes - how to determine which view should be loaded (route is path, urls in browser); can have: /customers/:customerId
+	* routes - how to determine which view should be loaded (route is path, urls in browser); 
+	    * can have ':', ex. `/customers/:customerId`
 	* UI
 		* view
 		* directives - enhances html (binds the data to the view)
-		* filters - data filter functionality, like uppercase
+		* filters - data filter functionality, ex. uppercase
 	* logic/data
-		* controllers (binded to view by $scope)
+		* controllers (binded to view by `$scope`)
 		* factory
 		* service
 1. data binding overview
 	* js no native support for data binding
-	* two-way data binding cal lead to significant reduction in code
+	* two-way data binding can lead to significant reduction in code
 1. directives and expressions
 	* directives teach html new tricks
 	* dom manipulation
-		* ng-hide
-		* ng-repeat
-		* ng-show
-		* ng-view
+		* `ng-hide`
+		* `ng-repeat`
+		* `ng-show`
+		* `ng-view`
 	* data binding
-		* ng-bind
-		* ng-init
-		* ng-model
+		* `ng-bind`
+		* `ng-init`
+		* `ng-model`
 	* events
-		* ng-click
-		* ng-keypress
-		* ng-mouseenter
+		* `ng-click`
+		* `ng-keypress`
+		* `ng-mouseenter`
 	* modules / controllers
-		* ng-app
-		* ng-controller
+		* `ng-app`
+		* `ng-controller`
 	* most directives are used as attributes
-	* expressions in binding markup: {{ xxx }}
+	* expressions in binding markup: `{{ xxx }}`
 1. additional directives
-	* ng-clock - dont load until is ready
-	* ng-switch="asd"
-		ng-switch-when="..."
-		ng-switch-default
-	* ng-show="true"
-	* ng-class="data.status"
+	* `ng-clock` - dont load until is ready
+	* switch
+	    ```
+        ng-switch="asd"
+            ng-switch-when="..."
+            ng-switch-default
+        ```
+	* `ng-show="true"`
+	* `ng-class="data.status"`
 1. iterating over data
-	* ng-init="names=[...]">
-		<li ng-repeat="name in names"> {{ name }} </li>
-	* ng-init="names=[{name:'John', city:'Chandler'}, ...]">
-		<li ng-repeat="person in persons"> {{ person.name }} </li>
+    ```
+    ng-init="names=[{name:'John', city:'Chandler'}, ...]">
+   	<li ng-repeat="person in persons"> {{ person.name }} </li>
+    ```
 1. sort, filter, formatting
-	* use pipe |
-	* ng-repeat="cust in customers | orderBy:'name'"
+	* use pipe `|`
+	* `ng-repeat="cust in customers | orderBy:'name'"`
 	* key angularjs filters
-		* currency
-		* date: cust.joined | date:'yyyy'
-		* filter
-		* json
-		* limitTo, ng-repeat="cust in customers | limitTo: 2
-		* lowercase
-		* number
-		* orderBy
-		* uppercase
-	* ng-click="sortBy='name';reverse=!reverse"
-	* ng-repeat=cust in customers | orderBy:sortBy:reverse"
+		* `currency`
+		* `date: cust.joined | date:'yyyy'`
+		* `filter`
+		* `json`
+		* `limitTo`: `ng-repeat="cust in customers | limitTo: 2`
+		* `lowercase`
+		* `number`
+		* `orderBy`
+		* `uppercase`
+	* `ng-click="sortBy='name';reverse=!reverse"`
+	* `ng-repeat=cust in customers | orderBy:sortBy:reverse"`
 1. angularjs relies on two key architecture patterns:
 	* model-view-controller
 	* model-view-viewModel
 	* mvc + mvvm = mv*
 	* request -> controller <-> model 
 				 controller <-> $scope (viewModel) <-> view -> response
-	* $scope is injected into a controller
+	* `$scope` is injected into a controller
 		* acts as the ViewModel
 		* views bind to scope properties and functions
-1. ng-controller directive
-	* ng-controller="SimpleController"
+1. `ng-controller` directive
+	* `ng-controller="SimpleController"`
 	* all scope values can be referenced from html inside the tag
-	* controller as syntax - ng-controller="SimpleController as ctrl" then ng-repeat="cust in ctrl.customers"
+	* controller `as` syntax
+	    * `ng-controller="SimpleController as ctrl"`
+	    * `ng-repeat="cust in ctrl.customers"`
 		* easy to see from which controller property comes from
 1. modules - are containers for:
 	* controllers
@@ -358,8 +362,9 @@
 	* factories/services
 	* directives
 	* filters
-	* <html ng-app="moduleName">
-	* creating module: var demoApp = angular.module('demoApp', []); // [] -> dependencies (other modules)
+	* `<html ng-app="moduleName">`
+	* creating module: `var demoApp = angular.module('demoApp', [])`
+	    * [] -> dependencies (other modules)
 	* adding controller to module:
 		* take module created before: demoApp.controller("SimpleController", function($scope) => )
 		* angular.module('demoApp').controller(...)
@@ -549,53 +554,57 @@
 	* controller - Used to define the controller that will be associated with the directive template.
 	* link - Function used for DOM manipulation tasks.
 # es6
-1. es5 vs es6
-	* language: ECMAScript (ES)
-	* dialect: follow ES: JavaScript
-	* you can think about ES6 as a javascript next version
-	* ES5 supported by all browsers, ES6 needs polyfills and transpilers
+* you can think about ES6 as a javascript next version
+* ES5 supported by all browsers, ES6 needs polyfills and transpilers
 1. es6 compatibility with browsers
 	* compiler: ES6 -> ES5 (temporary until browsers will support es6)
 	* module loader: webpack, jspm
 	* server: nodejs
-1. let, const
+1. `let`, `const`
 	* let - block scope
-		if (true) {
-			var x = 5;
-		}
-		console.log(x) // print 5; let - not print (x is not defined)
-		
-		let x = 6;
-		if (true) {
-			let x = 5;
-			console.log(x) // print 5
-		}
-		console.log(x) // print 6
-	* const - can't change reference
+	    ```
+        if (true) {
+        	var x = 5;
+        }
+        console.log(x) // print 5; let - not print (x is not defined)
+        
+        let x = 6;
+        if (true) {
+        	let x = 5;
+        	console.log(x) // print 5
+        }
+        console.log(x) // print 6
+        ```
+	* `const` - can't change reference
 1. hoisting in ES6
-	* Hoisting is a JavaScript mechanism where variables and function declarations are moved 
-	to the top of their scope before code execution.
-		age = 27; // declare now
-		console.log(age);
-		
-		var age; // define later
-	* hoisting does not work with let, const
-		function doSmth() {
-			age = 27;
-		}
-		
-		let age;
-		doSmth();
-		console.log(age) // print 27, in fact declaration is before definition
-1. fat arrow functions (lambda)
-	var fn = () => {
-			console.log('asd');
-		};
-	var fn = () => console.log('asd');
-	var fn = (a) => 'asd';
-	var fn = a => 'asd';
-1. fat arrow function and this
-	var fn2 = () => cl(this) // global scope
+	* hoisting - variables and function declarations are moved to the top of their scope before code execution
+	    ```
+   		age = 27; // declare now
+   		console.log(age);
+   		
+   		var age; // define later
+        ```
+	* `let`, `const` - no hoisting, but...
+	    ```
+        function doSmth() {
+        	age = 27;
+        }
+        
+        let age;
+        doSmth();
+        console.log(age) // print 27, in fact declaration is before definition
+        ```
+1. lambda, =>
+    ```
+   	var fn = () => {
+   			console.log('asd');
+   		};
+   	var fn = () => console.log('asd');
+   	var fn = (a) => 'asd';
+   	var fn = a => 'asd';
+    ```
+1. lambda and this
+	var fn2 = () => console.log(this) // global scope
 	
 	function fn() {
 		console.log(this);
@@ -603,8 +612,8 @@
 	button.addEventListener('click', fn); // refer to the caller - button; fn2 - get global scope - window; fn2 - keep the context no matter how and where you call it
 1. default parameters
 	* from left to right
-	* var eq = (a, b = 0) => a === b
-	* var eq = (a, b = a) => a === b
+	* `var eq = (a, b = 0) => a === b`
+	* `var eq = (a, b = a) => a === b`
 1. object literal extensions
 	let name = 'Anna';
 	let age = 25;
@@ -615,113 +624,103 @@
 	};
 	
 	console.log(obj); // print age: 25, name: Anna
-1. rest operator
-	pass antything that is converted to array as a rest operator
-	function sumUp(...toAdd) {
-		...
-	}
-1. spread operator
-	let numbers = [1,2,3,4,5];
-	console.log(...numbers); // 1 \n 2 \n 3 ...
-	console.log(Math.max(...numbers)); // without ... NAN
+1. rest operator, ...
+    ```
+   	function sumUp(...toAdd) {
+   		...
+   	}
+    ```
+	* in short words, converts argument list into an array: `sumUp(1,2,3,4) -> sumUp([1,2,3,4])`
+1. spread operator, ...
+    ```
+   	let numbers = [1,2,3,4,5];
+   	console.log(...numbers); // 1 \n 2 \n 3 ...
+   	console.log(Math.max(...numbers)); // without ... NAN
+    ```
 1. the for-of loop
-	let xxx = [1, 2, 3, 4];
-	for (let x of xxx) {
-		console.log(x);
-	}
-1. template literals
-	let name = 'max';
-	let description = `Hello, Im ${name}`;
-	
+    ```
+   	let xxx = [1, 2, 3, 4];
+   	for (let x of xxx) {
+   		console.log(x);
+   	}
+    ```
+1. template literals, `${}`
+    ```
+   	let name = 'max';
+   	let description = `Hello, Im ${name}`;
+    ```
 1. desctructuring array
-	* could set default values
-	let numbers = [1, 2, 3];
-	let [a, b] = numbers;
-	cl(a); // 1
-	cl(b); // 2
-	console.log(numbers) // 1, 2, 3
-	let [a, ...b] = numbers;
-	cl(b) // 2, 3
-	* if more values - not defined
-	* fast swap
-		[a, b] = [b, a]
+    * part
+        ```
+   	    let numbers = [1, 2, 3];
+   	    let [a, b] = numbers;
+   	    console.log(a); // 1
+   	    console.log(b); // 2
+   	    console.log(numbers) // 1, 2, 3
+        ```
+	* rest
+	    ```
+ 	    let [a, ...b] = numbers;
+ 	    console.log(b) // 2, 3
+        ```
+	* undefined if value has no equivalent
 	* empty space
+	    ```
 		let numbers = [1, 2, 3];
 		let [a, ,c] = numbers;
 		// a = 1, c = 3
+	    ```   
 1. desctructuring objects
-	let obj = {
-		name: 'aa'
-		age: 27
-		greet: a => console.log('a');
-	
-	}
-	let {name, age: age22} = obj; // age22 - alias
+    ```
+   	let obj = {
+   		name: 'aa'
+   		age: 27
+   		greet: a => console.log('a');
+   	
+   	}
+   	let {name, age: age22} = obj; // age22 - alias
+    ```
 1. summary destructuring
 	* array - by position
 	* object - by name
 1. importing / exporting
-	- external.js
-		export let keyValue = 1000; // function could also be exported
-	- script.js
-		import {keyValue} from './external.js';
-		cl(keyValue);
+	* `external.js`
+		`export let keyValue = 1000; // function could also be exported`
+	* `script.js`
+	    ```
+   		import {keyValue} from './external.js';
+   		console.log(keyValue); // 1000
+        ```
 	* exported value is only reference (it is not copied)
 	* export default - only one, can have any value
 	* aliases (keyValue as xxx)
-	* * as xxx (object key-value pair)
+	* as xxx (object key-value pair)
 	* class could be exported
 1. Modules are always in Strict Mode (no need to define "use strict")
-1. Modules don't have a shared, global Scope. Instead each Module has its own Scope
-1. class basics
-	class X {
-		consstructor(name) {
-			this.name = name;
-		}
-	
-		greet() {
-			cl('asd' + this.name);
-		}
-	}
-	
-	let p = new Person();
-	p.greet();
-1. inheritance: class X extends Y { } // constructor in parent - super(); overriding
+1. each module has its own scope
+1. classes
+    ```
+   	class X {
+   		constructor(name) {
+   			this.name = name;
+   		}
+   	
+   		greet() {
+   			cl('asd' + this.name);
+   		}
+   	}
+   	
+   	let p = new Person();
+   	p.greet();
+    ```
+1. inheritance
+    * `class X extends Y { }`
+    * `super()` 
+    * overriding
 1. static methods allowed
 1. syntax
 	* this._name - private field
 	* get name() { } getter - bind function to property
-1. symbol
-	let symbol = Symbol('debug'); // symbol represents unique id
-	cl(symbol.toString());
-	cl(typeof symbol); // it is a primitive - its not object
-	let obj = {
-		name: 'max',
-		[symbol]: 22
-	}
-	cl(obj); // without symbol - used for metaprogramming - for example creation timestamp
-	cl(obj[symbol]); // 22
-1. symbol vol2
-	let symbol1 = Symbol.for('age');
-	let symbol2 = Symbol.for('age');
-	cl(symbol1 == symbol2); // true - if Symbol('age') - false
-	* you should use it when you in one function put timesamp and in other - read the timestamp\
-1. symbols already in
-	* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
-	class Person {
-	
-	}
-	Person.prototype[Symbol.toStringTag] = 'Person'; // without - [object Object]
-	let person = new Person();
-	cl(person); // [object Person] {...}
-1. iterators and generators
-	* iterator - object that you can loop with
-	* generator - yields the next value when you need it
-	* cl(typeof array[Symbol.iterator]); // function
-	* let iterator = array[Symbol.iterator]();
-		it.next(); // cl(...) [object Object] {done:false, value: 2}
-	* in for of we use iterator (until done is not true); we could implement our own iterator
-		array[Symbol.iterator] = () => {...}
 1. make object iterable
 	let person = {
 		hobbies: [...]
@@ -730,74 +729,9 @@
 	for (let hobby of person) {
 		cl(hobby); // go through hobbies
 	}
-1. generator
-	function *generate() {
-		yield 'a';
-		yeild 'b';
-	}
-	let it = select();
-	cl(it.next()); // [object Object] {done: false, value: "a"}
-	cl(it.next());
-	cl(it.next());
-1. break iteration with it.throw() / it.throw('a'); it.return('asd');
-1. promises enable to break the callback hell
-	let promise = new Promise((resolve, reject) => setTimeout(() => resolve('Done!'), 1500));
-	promise.then(value => cl(value);
-1. rejecting promises
-	let promise = new Promise((resolve, reject) => setTimeout(() => reject('Done!'), 1500));
-	promise.then(value => cl(value), error => cl(error));
-1. promises could be chained
-	then method takes the function and thrust the return value from resolve as an argument
-1. you have catch on promise
-	xxx.catch(error => {cl.log(error)})
-1. all vs race
-	* all - waits for last to finish
-		* Promise.all([promise1, promise2]) - all have to be resolved
-			* function in then takes array of arguments from return values of all promises
-	* race = waits for the first to finish
-1. object extensions
-	* proto
-		* merging objects, same with classes
-			let obj = Object.assign(obj1, obj2);
-		* proto (the base object) of obj will be the first object passed (obj1)
-		* Object.setPrototypeOf(obj, prototype), obj.__proto__ === boss // after creation - you could set it in creation time
-	* Math object
-	* String
-		* startsWith, endsWith, includes
-	* number object
-		* isNaN, isFinite, isInteger
-	* arrays
-		* Array.of(5, 10, 15), array2.from(array, val => val*2), fill(100, from, to)
-		* array.find(val => val >= 12)
-		* array.entries() -> [index, value]
 1. maps and sets
 	* for (key / value of deck.keys() / values()) ...
 	* for (entry of deck / deck.entries()) ... ([key, value])
 	* WeakMap - only javascript obj - weak references
 	* set.has(...)
 	* WeakSet
-1. reflect API
-	* bundles of all properties in one place, one API
-	* new features
-	* proxy API
-	* creating objects, calling functions, Reflect.getPrototypeOf(...) (same as __proto__), Reflect.setPrototypeOf()
-	* what is prototype?
-	* getProperty, setProperty
-	* own fields - Reflect.ownKeys(person) // ["_name", "age"]
-	* defining property (field) - defineProperty - readOnly by default; writable: true
-	* blocking extensions: Reflect.preventsExtensions(person); Reflect.isExtensible(...)
-1. proxy API
-	* proxy is a wrapper of an object
-	* traps
-		let person = {name: 'max'}
-		
-		let handler = {
-			// methods from reflect API
-			get: target, name => name in target ? target[name] : 'xxx'
-		}
-		
-		var proxy = new Proxy(person, )
-	* proxy as prototype
-		Reflect.setPrototypeOf(let proxy = new Proxy({}, handler), proxy)
-	* proxy with functions (for cache)
-	* let {proxy, revoke} = Proxy.revocable(persom, handler); // revoke() - cant use proxy after
