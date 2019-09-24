@@ -1,7 +1,7 @@
 * _Reference_: https://www.udemy.com/learn-angularjs/
 * _Reference_: https://www.udemy.com/course/angularjs-jumpstart/
 * _Reference_: https://www.udemy.com/es6-bootcamp-next-generation-javascript/
-
+* _Reference_: https://docs.angularjs.org/guide
 
 * running scripts from package.json - `npm run-script <command> [--silent] [-- <args>...]`
 
@@ -148,13 +148,46 @@
 # SPA overview
 * SPAs allow different views (screens) to be loaded into shell page as the user interacts with the page
 * desktop style UX - more fluent, faster etc
-* used DOM manipulation
-* hash identifies element by id: `<a href="#bookmark"/>`
-* like directory structure: `#/bookmark/1
+* by DOM manipulation
+* `href="//site.com/#id"` would go to site.com and scroll to the id on that page
+* similar to directory structure: `#/bookmark/1`
 * pretend each hash value corresponds to the other page
+
+#angularjs
+## overview
+* **Template** - HTML with additional markup
+    * markup - language that annotates text so that the computer can manipulate that text
+    * template is parsed and processes by AngularJS compiler during application start
+    * the view - loaded, transformed and rendered DOM
+* **Directives** - extend HTML with custom attributes and elements
+    * the only place where an application should access the DOM is within directives
+* **Model** - the data shown to the user in the view and with which the user interacts
+    * values that are stored in variables on the scope
+* **Scope** - context where the model is stored so that controllers, directives and expressions can access it
+* **Expressions** - access variables and functions from the scope
+    * allows AngularJS to read and write variables
+    * `{{ expression | filter }}`
+    * compiler replaces it with the evaluated value of the markup
+* **Compiler** - parses the template and instantiates directives and expressions
+* **Filter** - formats the value of an expression for display to the user
+* **View** - what the user sees (the DOM)
+* **Data Binding** - sync data between the model and the view
+* **Controller** - the business logic behind views
+    * exposes variables and functionality to expressions and directives
+    * `InvoiceController as invoice` - instantiate the controller and save it in the variable 
+    `invoice` in the current scope
+* **Dependency Injection** - creates and wires objects and functions
+    * everything within AngularJS (directives, filters, controllers, services, ...) 
+    is created and wired using dependency injection
+* **Injector** - dependency injection container
+* **Module** - a container for the different parts of an app including controllers, services, filters, directives which configures the Injector
+* **Service** - reusable business logic independent of views
+
+
+
+
 # angularjs
-## intro
-* angularjs - normalization: converts string into camel case: search-result -> (in code) -> searchResult
+## introduction
 1. global namespace with angular module
 	* `var myApp = angular.module('myApp', []);` // only one thing in global namespace; in [] we declare module that we depend on - othwerwise $injector.unpr when we inject $xxx that is included in that module
 	* then in html below document attribute: ng-app="myApp" - matches to a module name
@@ -222,6 +255,7 @@
 	* js has no native support for data binding
 	* two-way data binding can lead to significant reduction in code
 ## directives
+* angularjs - normalization: converts string into camel case: search-result -> (in code) -> searchResult
 * restrict: 'AE' A - attribute, e-element; by default: AE; not supported by default: ex. class, comment
 * directives enhance html with new features
 * dom manipulation
