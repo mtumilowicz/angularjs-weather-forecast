@@ -180,6 +180,16 @@
     * exposes variables and functionality to expressions and directives
     * `InvoiceController as invoice` - instantiate the controller and save it in the variable 
     `invoice` in the current scope
+    * can be attached to the DOM in different ways
+        * the `ngController` directive - new child scope will be created and made available as an injectable parameter 
+        to the Controller's constructor function as `$scope`
+        * a route controller in a `$route` definition
+        * the controller of a regular directive, or a component directive
+        * controller as syntax then the controller instance will be assigned to a property on the scope
+    *  all the `$scope` properties will be available to the template at the point in the DOM where the Controller 
+    is registered
+    * The `$scope` that each Controller receives will have access to properties and methods defined by Controllers 
+    higher up the hierarchy
 * **Dependency Injection** - creates and wires objects and functions
     * everything within AngularJS (directives, filters, controllers, services, ...) 
     is created and wired using dependency injection
