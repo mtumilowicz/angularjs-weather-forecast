@@ -1,7 +1,6 @@
 describe("ServiceTestController Testing Suite", function () {
     var $scope, mockStringService;
-    beforeEach(angular.mock.module("factories"));
-    beforeEach(angular.mock.module("weatherApp"));
+    beforeEach(module("weatherApp"));
 
     // Inject the real StringService
     beforeEach(inject(function ($controller, $rootScope, cityService) {

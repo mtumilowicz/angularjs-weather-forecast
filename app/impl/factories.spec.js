@@ -1,6 +1,6 @@
 describe("XXX", function () {
 
-    beforeEach(angular.mock.module("factories"));
+    beforeEach(module("factories"));
 
     it('can get an instance of my factory', inject(function(temperatureConverter) {
         expect(temperatureConverter).toBeDefined();
