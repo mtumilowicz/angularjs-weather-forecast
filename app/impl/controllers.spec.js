@@ -7,12 +7,16 @@ describe("ServiceTestController Testing Suite", function () {
         $scope = $rootScope.$new();
 
         mockStringService = cityService;
-
-        spyOn(mockStringService, "city").and.returnValue("New York");
         $controller("homeController", {$scope: $scope, cityService: mockStringService});
     }));
 
     it("should make a string more exciting", function () {
-        expect($scope.city()).toBe("New York");
+        expect($scope.city).toBe("Warsaw");
+    });
+
+    it("should make a string more exciting", function () {
+        $scope.city = "New York";
+        $scope.$digest();
+        expect(mockStringService.city).toBe("New York");
     });
 });
