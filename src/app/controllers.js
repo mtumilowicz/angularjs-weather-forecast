@@ -1,10 +1,20 @@
-weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, cityService) {
+class homeController {
 
-    $scope.city = cityService.city;
+    constructor($scope, cityService) {
+        this.scope = $scope;
+        this.cityService = cityService;
+        this.city = cityService.city;
+    }
 
-    $scope.$watch('city', () => cityService.city = $scope.city);
+    $onInit() {
+        this.scope.$watch(() => this.city, () => this.cityService.city = this.city);
+    }
 
-}]);
+}
+
+homeController.$inject = ["$scope", "cityService"];
+
+weatherApp.controller('homeController', homeController);
 
 weatherApp.controller('forecastController', ['$scope', '$routeParams', 'cityService',
     'temperatureConverter', 'dateConverter', 'forecastService',
