@@ -2,7 +2,7 @@
 * _Reference_: https://www.udemy.com/course/angularjs-jumpstart/
 * _Reference_: https://www.udemy.com/es6-bootcamp-next-generation-javascript/
 * _Reference_: https://docs.angularjs.org/guide
-
+* _Reference_: https://essenceofcode.com/2015/08/21/awesome-angular-controllers-with-es6-6-easy-steps/
 * running scripts from package.json - `npm run-script <command> [--silent] [-- <args>...]`
 
 # ES6
