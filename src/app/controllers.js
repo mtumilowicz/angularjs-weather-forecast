@@ -1,13 +1,8 @@
 class homeController {
 
     constructor($scope, cityService) {
-        this.scope = $scope;
-        this.cityService = cityService;
         this.city = cityService.city;
-    }
-
-    $onInit() {
-        this.scope.$watch(() => this.city, () => this.cityService.city = this.city);
+        $scope.$watch(() => this.city, () => cityService.city = this.city);
     }
 
 }

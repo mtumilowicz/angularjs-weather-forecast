@@ -16,7 +16,6 @@ describe("ServiceTestController Testing Suite", () => {
 
     it("should make a string more exciting", () => {
         homeController.city = "New York";
-        homeController.$onInit();
         $scope.$digest();
         expect(mockStringService.city).toBe("New York");
     });

@@ -10,7 +10,8 @@ const weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'facto
         $routeProvider
             .when('/', {
                 templateUrl: 'home/home.htm',
-                controller: 'homeController'
+                controller: 'homeController',
+                controllerAs: 'homeController'
             })
             .when('/forecast', {
                 templateUrl: 'forecast/forecast.htm',
