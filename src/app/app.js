@@ -1,3 +1,1 @@
-// MODULE
-var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'factories']);
-
+const weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'factories']);
