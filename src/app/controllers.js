@@ -1,10 +1,12 @@
-weatherApp.controller('homeController', ['$scope', 'cityService', function ($scope, cityService) {
+weatherApp.controller('homeController', ['$scope', 'cityService', homeController]);
 
-    $scope.city = cityService.city;
+function homeController($scope, cityService) {
 
-    $scope.$watch('city', () => cityService.city = $scope.city);
+    this.city = cityService.city;
 
-}]);
+    $scope.$watch('city', () => cityService.city = this.city);
+
+}
 
 weatherApp.controller('forecastController', ['$scope', '$routeParams', 'cityService',
     'temperatureConverter', 'dateConverter', 'forecastService',
