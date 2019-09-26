@@ -1,12 +1,13 @@
-describe('myService test', function () {
+describe('myService test', () => {
 
-    beforeEach(function(){
-        module('weatherApp');
-    });
+    beforeEach(module('weatherApp'));
 
-    it('can get an instance of my factory 1', inject(function(cityService) {
-        expect(cityService).toBeDefined();
+    it('can get an instance of my factory 1', inject(cityService =>
+        expect(cityService).toBeDefined()
+    ));
+
+    it('can get an instance of my factory 1', inject(cityService =>
         expect(cityService.city).toBe('Warsaw')
-    }));
+    ));
 
 });
