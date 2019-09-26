@@ -10,7 +10,7 @@ module.exports = function (config) {
             'lib/angular-resource/angular-resource.js',
             '../node_modules/angular-mocks/angular-mocks.js',
             'view*/**/*.js',
-            'impl/**/*js'
+            'weather/**/*js'
         ],
 
         autoWatch: true,
