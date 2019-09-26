@@ -14,7 +14,7 @@ class homeController {
 
 homeController.$inject = ["$scope", "cityService"];
 
-weatherApp.controller('homeController', ['$scope', 'cityService', homeController]);
+weatherApp.controller('homeController', homeController);
 
 weatherApp.controller('forecastController', ['$scope', '$routeParams', 'cityService',
     'temperatureConverter', 'dateConverter', 'forecastService',
