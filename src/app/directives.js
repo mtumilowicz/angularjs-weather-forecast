@@ -9,4 +9,5 @@ weatherApp.directive("weatherReport", () => (
             convertToDate: "&",
             dateFormat: "@"
         }
-    }));
+    }
+));

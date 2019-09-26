@@ -1,11 +1,11 @@
 angular.module('factories', [])
-    .factory('temperatureConverter', function () {
-        return {
+    .factory('temperatureConverter', () => (
+        {
             toCelsius: degK => Math.round(degK - 273.15)
         }
-    })
-    .factory('dateConverter', function () {
-        return {
+    ))
+    .factory('dateConverter', () => (
+        {
             toDate: dt => new Date(dt * 1000)
-        };
-    });
+        }
+    ));
