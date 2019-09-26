@@ -1,14 +1,12 @@
 const weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'factories'])
-    .config(['$locationProvider', function ($locationProvider) {
-        $locationProvider.hashPrefix('');
-    }])
-    .config(function ($sceDelegateProvider) {
+    .config(['$locationProvider', $locationProvider => $locationProvider.hashPrefix('')])
+    .config(['$sceDelegateProvider', $sceDelegateProvider =>
         $sceDelegateProvider.resourceUrlWhitelist([
             'self',
             'http://api.openweathermap.org/**'
-        ]);
-    })
-    .config(function ($routeProvider) {
+        ])
+    ])
+    .config(['$routeProvider', $routeProvider =>
         $routeProvider
             .when('/', {
                 templateUrl: 'home/home.htm',
@@ -22,4 +20,4 @@ const weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'facto
                 templateUrl: 'forecast/forecast.htm',
                 controller: 'forecastController'
             })
-    });
+    ]);
