@@ -65,8 +65,23 @@ function routing($routeProvider) {
         })
 }
 
+function report() {
+    return {
+        restrict: 'E',
+        templateUrl: 'directives/weatherReport.html',
+        replace: true,
+        scope: {
+            weatherDay: "=",
+            convertToStandard: "&",
+            convertToDate: "&",
+            dateFormat: "@"
+        }
+    }
+}
+
 angular.module("forecast", [])
     .config(['$routeProvider', routing])
+    .directive("weatherReport", report)
     .service('cityService', cityService)
     .service('forecastService', forecastService)
     .controller('homeController', homeController)

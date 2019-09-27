@@ -1,4 +1,6 @@
-const weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'forecast', 'factories'])
+const weatherApp = angular.module(
+    'weatherApp',
+    ['ngRoute', 'ngResource', 'forecast', 'factories'])
     .config(['$locationProvider', $locationProvider => $locationProvider.hashPrefix('')])
     .config(['$sceDelegateProvider', $sceDelegateProvider =>
         $sceDelegateProvider.resourceUrlWhitelist([
