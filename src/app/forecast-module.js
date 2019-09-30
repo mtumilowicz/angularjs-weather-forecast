@@ -34,18 +34,26 @@ class homeController {
 
 homeController.$inject = ["$scope", "cityService"];
 
-function forecastController($scope, $routeParams, cityService, temperatureConverter, dateConverter, forecastService) {
+class forecastController {
+    constructor($routeParams, cityService, temperatureConverter, dateConverter, forecastService) {
+        this.self = this;
+        this.city = cityService.city;
+        this.days = $routeParams.days;
+        this.temperatureConverter = temperatureConverter;
+        this.dateConverter = dateConverter;
+        forecastService.forecast(this.city, this.days)
+            .then(result => {
+                this.weatherResult = result.data;
+            });
+    }
 
-    $scope.city = cityService.city;
+    convertToCelsius(degK) {
+        return this.temperatureConverter.toCelsius(degK);
+    }
 
-    $scope.days = $routeParams.days;
-
-    forecastService.forecast($scope.city, $scope.days)
-        .then(response => $scope.weatherResult = response.data);
-
-    $scope.convertToCelsius = degK => temperatureConverter.toCelsius(degK);
-
-    $scope.convertToDate = dt => dateConverter.toDate(dt);
+    convertToDate(dt) {
+        return this.dateConverter.toDate(dt);
+    }
 }
 
 function routing($routeProvider) {
@@ -57,11 +65,13 @@ function routing($routeProvider) {
         })
         .when('/forecast', {
             templateUrl: 'forecast/forecast.htm',
-            controller: 'forecastController'
+            controller: 'forecastController',
+            controllerAs: 'forecastController'
         })
         .when('/forecast/:days', {
             templateUrl: 'forecast/forecast.htm',
-            controller: 'forecastController'
+            controller: 'forecastController',
+            controllerAs: 'forecastController'
         })
 }
 
@@ -85,6 +95,4 @@ angular.module("forecast", [])
     .service('cityService', cityService)
     .service('forecastService', forecastService)
     .controller('homeController', homeController)
-    .controller('forecastController', ['$scope', '$routeParams', 'cityService',
-        'temperatureConverter', 'dateConverter', 'forecastService',
-        forecastController]);
+    .controller('forecastController', forecastController);
