@@ -45,6 +45,12 @@
 * **Dependency Injection** - creates and wires objects and functions
     * everything within AngularJS (directives, filters, controllers, services, ...) 
     is created and wired using dependency injection
+    * `['$locationProvider', $locationProvider => $locationProvider.hashPrefix('')]`
+    * will not minify strings
+    * array first contains the names of the service dependencies that the controller needs
+    *  AngularJS uses this array syntax to define the dependencies so that the DI also works after minifying the code, 
+    which will most probably rename the argument name of the controller constructor function to something shorter like 
+    `a`
 * **Injector** - dependency injection container
 * **Module** - a container for the different parts of an app including controllers, services, 
 filters, directives which configures the Injector
