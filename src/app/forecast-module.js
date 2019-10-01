@@ -3,20 +3,7 @@ import forecastService from "./forecastService.js";
 import homeController from "./homeController.js";
 import forecastController from "./forecastController.js";
 import routing from "./forecastRouting.js";
-
-function report() {
-    return {
-        restrict: 'E',
-        templateUrl: 'directives/weatherReport.html',
-        replace: true,
-        scope: {
-            weatherDay: "=",
-            convertToStandard: "&",
-            convertToDate: "&",
-            dateFormat: "@"
-        }
-    }
-}
+import report from "./forecastReport.js";
 
 angular.module("forecast", [])
     .config(['$routeProvider', routing])
