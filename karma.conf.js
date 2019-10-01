@@ -1,4 +1,3 @@
-//jshint strict: false
 module.exports = function (config) {
     config.set({
 
@@ -9,7 +8,7 @@ module.exports = function (config) {
             'lib/angular-route/angular-route.js',
             'lib/angular-resource/angular-resource.js',
             '../node_modules/angular-mocks/angular-mocks.js',
-            'app/**/*js'
+            {pattern: 'app/**/*js', type: 'module'}
         ],
 
         autoWatch: true,
