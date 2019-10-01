@@ -4,7 +4,7 @@
 * _Reference_: https://docs.angularjs.org/guide
 * _Reference_: https://essenceofcode.com/2015/08/21/awesome-angular-controllers-with-es6-6-easy-steps/
 * running scripts from package.json - `npm run-script <command> [--silent] [-- <args>...]`
-
+ 
 # angularjs
 ## overview
 * **Template** - HTML with additional markup
