@@ -1,8 +1,4 @@
-class cityService {
-    constructor() {
-        this.city = "Warsaw";
-    }
-}
+import cityService from "./cityService.js";
 
 class forecastService {
     constructor($http) {
