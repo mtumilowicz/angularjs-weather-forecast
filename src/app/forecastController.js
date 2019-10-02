@@ -19,3 +19,5 @@ export default class forecastController {
         return this.dateConverter.toDate(dt);
     }
 }
+
+forecastController.$inject = ["$routeParams", "cityService", "temperatureConverter", "dateConverter", "forecastService"];
