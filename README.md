@@ -24,7 +24,28 @@
     * directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler ($compile) to attach a specified behavior to that DOM element (e.g. via event listeners), or even to transform the DOM element and its children
     * When AngularJS bootstraps your application, the HTML compiler traverses the DOM matching directives against the DOM elements
     * For AngularJS, "compilation" means attaching directives to the HTML to make it interactive. The reason we use the term "compile" is that the recursive process of attaching directives mirrors the process of compiling source code in compiled programming languages
-    * 
+    * AngularJS normalizes an element's tag and attribute name to determine which elements match which directives
+        * We typically refer to directives by their case-sensitive camelCase normalized name (e.g. ngModel). However, since HTML is case-insensitive, we refer to directives in the DOM by lower-case forms, typically using dash-delimited attributes on DOM elements (e.g. ng-model)
+    * The normalization process is as follows:
+        * Strip x- and data- from the front of the element/attributes.
+        * Convert the :, -, or _-delimited name to camelCase.
+    * $compile can match directives based on element names (E), attributes (A), class names (C), and comments (M)
+        * The default is EA
+    * Unless your template is very small, it's typically better to break it apart into its own HTML file and load it with the templateUrl option
+    * link (???)
+        * Creating a Directive that Manipulates the DOM
+    * transclude (???)
+        * Creating a Directive that Wraps Other Elements
+    * scope: {...} // isolated scope
+        * there may be scenarios where the directive needs to exchange data with the parent
+        * directive can gain access to the parent scope by using some special symbols known as prefixes
+        * Using prefixes helps establish a two-way or one-way binding between parent and directive scopes, and also make calls to parent scope methods
+        * There are 3 types of prefixes in AngularJS:
+            * ‘@’ – Text binding / one-way binding
+                *  ‘@’ tells the directive to receive the value from the outer scope one-way (one-way binding) as a string. The one-way here means even if you change the value in the directive scope, that would not affect the value in the parent scope
+            * ‘=’ – Direct model binding / two-way binding
+            * ‘&’ – Behavior binding / Method binding
+* **Component** - ??? https://docs.angularjs.org/guide/component
 * **Model** - the data shown to the user in the view and with which the user interacts
     * values that are stored in variables on the scope
 * **Scope** - context where the model is stored so that controllers, directives and expressions can access it
@@ -122,3 +143,5 @@ filters, directives which configures the Injector
     * form and controls provide validation services, so that the user can be notified of invalid input before submitting a form
     * By default, any change to the content will trigger a model update and form validation
     * AngularJS provides basic implementation for most common HTML5 input types: (text, number, url, email, date, radio, checkbox), as well as some directives for validation (required, pattern, minlength, maxlength, min, max)
+
+* https://docs.angularjs.org/api/ng/service/$compile
