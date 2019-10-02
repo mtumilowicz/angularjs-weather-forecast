@@ -21,6 +21,10 @@
         * Form controls
 * **Directives** - extend HTML with custom attributes and elements
     * the only place where an application should access the DOM is within directives
+    * directives are markers on a DOM element (such as an attribute, element name, comment or CSS class) that tell AngularJS's HTML compiler ($compile) to attach a specified behavior to that DOM element (e.g. via event listeners), or even to transform the DOM element and its children
+    * When AngularJS bootstraps your application, the HTML compiler traverses the DOM matching directives against the DOM elements
+    * For AngularJS, "compilation" means attaching directives to the HTML to make it interactive. The reason we use the term "compile" is that the recursive process of attaching directives mirrors the process of compiling source code in compiled programming languages
+    * 
 * **Model** - the data shown to the user in the view and with which the user interacts
     * values that are stored in variables on the scope
 * **Scope** - context where the model is stored so that controllers, directives and expressions can access it
