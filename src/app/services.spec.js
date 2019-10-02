@@ -1,12 +1,8 @@
-describe('myService test', () => {
+describe('cityService test', () => {
 
     beforeEach(module('weatherApp'));
 
-    it('can get an instance of my factory 1', inject(cityService =>
-        expect(cityService).toBeDefined()
-    ));
-
-    it('can get an instance of my factory 1', inject(cityService =>
+    it('default city is Warsaw', inject(cityService =>
         expect(cityService.city).toBe('Warsaw')
     ));
 
