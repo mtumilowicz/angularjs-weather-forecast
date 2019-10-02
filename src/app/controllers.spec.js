@@ -1,12 +1,12 @@
 describe("home controller tests", () => {
-    let $scope, homeController, mockCityService;
+    let $scope, homeController, mockhomeCityService;
     beforeEach(module("weatherApp"));
 
-    beforeEach(inject(($controller, $rootScope, cityService) => {
+    beforeEach(inject(($controller, $rootScope, homeCityService) => {
             $scope = $rootScope.$new();
 
-            mockCityService = cityService;
-            homeController = $controller("homeController", {$scope: $scope, cityService: cityService});
+            mockhomeCityService = homeCityService;
+            homeController = $controller("homeController", {$scope: $scope, homeCityService: homeCityService});
         }
     ));
 
@@ -14,9 +14,9 @@ describe("home controller tests", () => {
         expect(homeController.city).toBe("Warsaw")
     );
 
-    it("changing city in controller should change city in mockCityService", () => {
+    it("changing city in controller should change city in mockhomeCityService", () => {
         homeController.city = "New York";
         $scope.$digest();
-        expect(mockCityService.city).toBe("New York");
+        expect(mockhomeCityService.city).toBe("New York");
     });
 });

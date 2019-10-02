@@ -1,10 +1,10 @@
 export default class homeController {
 
-    constructor($scope, cityService) {
-        this.city = cityService.city;
-        $scope.$watch(() => this.city, () => cityService.city = this.city);
+    constructor($scope, homeCityService) {
+        this.city = homeCityService.city;
+        $scope.$watch(() => this.city, () => homeCityService.city = this.city);
     }
 
 }
 
-homeController.$inject = ["$scope", "cityService"];
+homeController.$inject = ["$scope", "homeCityService"];

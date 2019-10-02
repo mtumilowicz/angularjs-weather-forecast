@@ -1,7 +1,7 @@
 export default class forecastController {
-    constructor($routeParams, cityService, temperatureConverter, dateConverter, forecastService) {
+    constructor($routeParams, homeCityService, temperatureConverter, dateConverter, forecastService) {
         this.self = this;
-        this.city = cityService.city;
+        this.city = homeCityService.city;
         this.days = $routeParams.days;
         this.temperatureConverter = temperatureConverter;
         this.dateConverter = dateConverter;
@@ -20,4 +20,4 @@ export default class forecastController {
     }
 }
 
-forecastController.$inject = ["$routeParams", "cityService", "temperatureConverter", "dateConverter", "forecastService"];
+forecastController.$inject = ["$routeParams", "homeCityService", "temperatureConverter", "dateConverter", "forecastService"];

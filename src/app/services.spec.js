@@ -1,9 +1,9 @@
-describe('cityService test', () => {
+describe('homeCityService test', () => {
 
     beforeEach(module('weatherApp'));
 
-    it('default city is Warsaw', inject(cityService =>
-        expect(cityService.city).toBe('Warsaw')
+    it('default city is Warsaw', inject(homeCityService =>
+        expect(homeCityService.city).toBe('Warsaw')
     ));
 
 });

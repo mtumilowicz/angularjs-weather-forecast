@@ -1,4 +1,4 @@
-import cityService from "./cityService.js";
+import homeCityService from "./homeCityService.js";
 import forecastService from "./forecastService.js";
 import homeController from "./homeController.js";
 import forecastController from "./forecastController.js";
@@ -8,7 +8,7 @@ import report from "./forecastReport.js";
 angular.module("forecast", [])
     .config(['$routeProvider', routing])
     .directive("weatherReport", report)
-    .service('cityService', cityService)
+    .service('homeCityService', homeCityService)
     .service('forecastService', forecastService)
     .controller('homeController', homeController)
     .controller('forecastController', forecastController);
