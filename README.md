@@ -11,6 +11,14 @@
     * markup - language that annotates text so that the computer can manipulate that text
     * template is parsed and processes by AngularJS compiler during application start
     * the view - loaded, transformed and rendered DOM
+    * templates are written with HTML that contains AngularJS-specific elements and attributes
+    * AngularJS combines the template with information from the model and controller to render the dynamic view 
+    that a user sees in the browser
+    * types:
+        * Directive
+        * Markup
+        * Filter
+        * Form controls
 * **Directives** - extend HTML with custom attributes and elements
     * the only place where an application should access the DOM is within directives
 * **Model** - the data shown to the user in the view and with which the user interacts
@@ -20,6 +28,16 @@
     * allows AngularJS to read and write variables
     * `{{ expression | filter }}`
     * compiler replaces it with the evaluated value of the markup
+    * The double curly brace notation {{ }} to bind expressions to elements is built-in AngularJS markup
+    * AngularJS's $parse service processes these expressions
+    * do not have direct access to global variables like window, document or location
+    * Expression evaluation is forgiving to undefined and null
+    * In JavaScript, evaluating a.b.c throws an exception if a is not an object
+    * It makes more sense to show nothing than to throw an exception if a is undefined (perhaps we are waiting for the server response, and it will become defined soon)
+    * invoking a function a.b.c() on undefined or null simply returns undefined
+    * apart from the ternary operator (a ? b : c), you cannot write a control flow statement in an expression
+        * logic should be in controllers, not the views
+    * interpolation (???)
 * **Compiler** - parses the template and instantiates directives and expressions
 * **Filter** - formats the value of an expression for display to the user
 * **View** - what the user sees (the DOM)
@@ -65,7 +83,6 @@
     * When AngularJS compiles the HTML, it processes the ng-controller directive, which in turn asks the injector to 
     create an instance of the controller and its dependencies
     * `injector.instantiate(MyController);`
-    * 
 * **Module** - a container for the different parts of an app including controllers, services, 
 filters, directives which configures the Injector
     * `angular.module('invoice2', ['finance2'])` - invoice2 depends on the finance2
