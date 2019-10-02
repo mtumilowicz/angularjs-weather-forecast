@@ -40,6 +40,26 @@
     * interpolation (???)
 * **Compiler** - parses the template and instantiates directives and expressions
 * **Filter** - formats the value of an expression for display to the user
+    * underlying API is the $filterProvider
+    * {{ expression | filter }}
+    * {{ 12 | currency }} ----> $12.00
+    * chaining: {{ expression | filter1 | filter2 | ... }}
+    * filter arguments: {{ expression | filter:argument1:argument2:... }}
+        * {{ 1234 | number:2 }} formats the number 1234 with 2 decimal points using the number filter
+        * ---> 1,234.00
+    * primitive type filters are only executed when their inputs have changed
+        * 7 primitive data types: string, number, bigint, boolean, null, undefined, and symbol
+    * objects type filters are executed on each $digest, as it would be too costly to track if the inputs have changed
+    * You can also use filters in controllers, services, and directives
+        * inject a dependency with the name <filterName>Filter
+    * Creating custom filters
+        * just register a new filter factory function with your module
+            ```
+            angular.module('app', [])
+            .filter('filterName', () => (input, otherArgs...) => {
+            ```
+        * This factory function should return a new filter function which takes the input value as the first argument. Any filter arguments are passed in as additional arguments to the filter function
+        * should be pure functions
 * **View** - what the user sees (the DOM)
 * **Data Binding** - sync data between the model and the view
     * the template is compiled on the browser into live view
