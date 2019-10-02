@@ -1,6 +1,5 @@
 export default class forecastController {
     constructor($routeParams, homeCityService, temperatureConverter, dateConverter, forecastService) {
-        this.self = this;
         this.city = homeCityService.city;
         this.days = $routeParams.days;
         this.temperatureConverter = temperatureConverter;
