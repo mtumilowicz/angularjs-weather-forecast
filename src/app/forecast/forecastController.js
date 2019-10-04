@@ -14,8 +14,8 @@ export default class forecastController {
         return this.temperatureConverter.kelvinToCelsius(degrees);
     }
 
-    convertToDate(millis) {
-        return this.dateConverter.toDate(millis);
+    convertToDate(seconds) {
+        return this.dateConverter.toDate(seconds);
     }
 }
 
