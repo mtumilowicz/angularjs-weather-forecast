@@ -10,8 +10,8 @@ export default class forecastController {
             });
     }
 
-    convertKelvinToCelsius(kelvin) {
-        return this.temperatureConverter.kelvinToCelsius(kelvin);
+    convertKelvinToCelsius(degrees) {
+        return this.temperatureConverter.kelvinToCelsius(degrees);
     }
 
     convertToDate(millis) {
