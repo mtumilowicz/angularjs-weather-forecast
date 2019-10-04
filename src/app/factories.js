@@ -6,6 +6,6 @@ angular.module('factories', [])
     ))
     .factory('dateConverter', () => (
         {
-            toDate: dt => new Date(dt * 1000)
+            toDate: seconds => new Date(seconds * 1000)
         }
     ));
