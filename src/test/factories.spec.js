@@ -11,7 +11,7 @@ describe("factories tests", () => {
     ));
 
     it("convert kelvin to celsius", inject(temperatureConverter =>
-        expect(temperatureConverter.toCelsius(273.15)).toBe(0)
+        expect(temperatureConverter.kelvinToCelsius(273.15)).toBe(0)
     ));
 
 });
