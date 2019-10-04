@@ -10,7 +10,7 @@ export default class forecastController {
             });
     }
 
-    convertToCelsius(kelvin) {
+    convertKelvinToCelsius(kelvin) {
         return this.temperatureConverter.kelvinToCelsius(kelvin);
     }
 
