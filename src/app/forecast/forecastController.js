@@ -10,12 +10,12 @@ export default class forecastController {
             });
     }
 
-    convertToCelsius(degK) {
-        return this.temperatureConverter.toCelsius(degK);
+    convertToCelsius(kelvin) {
+        return this.temperatureConverter.kelvinToCelsius(kelvin);
     }
 
-    convertToDate(dt) {
-        return this.dateConverter.toDate(dt);
+    convertToDate(millis) {
+        return this.dateConverter.toDate(millis);
     }
 }
 

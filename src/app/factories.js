@@ -1,7 +1,7 @@
 angular.module('factories', [])
     .factory('temperatureConverter', () => (
         {
-            toCelsius: degK => Math.round(degK - 273.15)
+            kelvinToCelsius: kelvin => Math.round(kelvin - 273.15)
         }
     ))
     .factory('dateConverter', () => (
