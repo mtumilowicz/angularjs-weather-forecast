@@ -183,7 +183,9 @@ filters, directives which configures the Injector
         * compile and link separation is needed any time a change in a model causes a change in the structure of the DOM
         * It's rare for directives to have a compile function, since most directives are concerned with working with a specific DOM element instance rather than changing its overall structure.
         * Directives often have a link function. A link function allows the directive to register listeners to the specific cloned DOM element instance as well as to copy content into the DOM from the scope.
-
+    *  Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
+    * An Example of "Compile" Versus "Link" (???)
+* **Bootstrap** (???) 
 
 
 * https://docs.angularjs.org/api/ng/service/$compile
