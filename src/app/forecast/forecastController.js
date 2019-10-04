@@ -19,4 +19,10 @@ export default class forecastController {
     }
 }
 
-forecastController.$inject = ["$routeParams", "homeCityService", "temperatureConverter", "dateConverter", "forecastService"];
+forecastController.$inject = [
+    "$routeParams",
+    "homeCityService",
+    "temperatureConverter",
+    "dateConverter",
+    "forecastService"
+];
