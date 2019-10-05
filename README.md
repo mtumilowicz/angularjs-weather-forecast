@@ -32,10 +32,9 @@
     * $compile can match directives based on element names (E), attributes (A), class names (C), and comments (M)
         * The default is EA
     * Unless your template is very small, it's typically better to break it apart into its own HTML file and load it with the templateUrl option
-    * link (???)
-        * Creating a Directive that Manipulates the DOM
-    * transclude (???)
-        * Creating a Directive that Wraps Other Elements
+    * transclude - We've seen that you can pass in models to a directive using the isolate scope, but sometimes it's desirable to be able to pass in an entire template rather than a string or an object
+        * only use transclude: true when you want to create a directive that wraps arbitrary content
+        * The dialog box should be able to wrap any arbitrary content.
     * scope: {...} // isolated scope
         * there may be scenarios where the directive needs to exchange data with the parent
         * directive can gain access to the parent scope by using some special symbols known as prefixes
@@ -45,7 +44,6 @@
                 *  ‘@’ tells the directive to receive the value from the outer scope one-way (one-way binding) as a string. The one-way here means even if you change the value in the directive scope, that would not affect the value in the parent scope
             * ‘=’ – Direct model binding / two-way binding
             * ‘&’ – Behavior binding / Method binding
-* **Component** - ??? https://docs.angularjs.org/guide/component
 * **Model** - the data shown to the user in the view and with which the user interacts
     * values that are stored in variables on the scope
 * **Scope** - context where the model is stored so that controllers, directives and expressions can access it
@@ -62,8 +60,8 @@
     * invoking a function a.b.c() on undefined or null simply returns undefined
     * apart from the ternary operator (a ? b : c), you cannot write a control flow statement in an expression
         * logic should be in controllers, not the views
-    * interpolation (???)
-        * https://docs.angularjs.org/api/ng/service/$interpolate
+    * interpolation -  the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values
+        * Interpolation markup with embedded expressions is used by AngularJS to provide data-binding to text nodes and attribute values
 * **Compiler** - parses the template and instantiates directives and expressions
 * **Filter** - formats the value of an expression for display to the user
     * underlying API is the $filterProvider
@@ -185,7 +183,7 @@ filters, directives which configures the Injector
         * Directives often have a link function. A link function allows the directive to register listeners to the specific cloned DOM element instance as well as to copy content into the DOM from the scope.
     *  Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
     * An Example of "Compile" Versus "Link" (???)
-* **Bootstrap** (???) 
+* **Bootstrap**
     * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
         * Placing script tags at the end of the page improves app load time because the HTML loading is not blocked by loading of the angular.js script
     * Place ng-app to the root of your application, typically on the <html> tag if you want AngularJS to auto-bootstrap your application
@@ -196,6 +194,3 @@ filters, directives which configures the Injector
         * load the module associated with the directive.
         * create the application injector
         * compile the DOM treating the ngApp directive as the root of the compilation. This allows you to tell it to treat only a portion of the DOM as an AngularJS application.
-
-
-* https://docs.angularjs.org/api/ng/service/$compile
