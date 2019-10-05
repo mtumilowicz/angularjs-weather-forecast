@@ -186,6 +186,15 @@ filters, directives which configures the Injector
     *  Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
     * An Example of "Compile" Versus "Link" (???)
 * **Bootstrap** (???) 
+    * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
+        * Placing script tags at the end of the page improves app load time because the HTML loading is not blocked by loading of the angular.js script
+    * Place ng-app to the root of your application, typically on the <html> tag if you want AngularJS to auto-bootstrap your application
+        * `<html lang="en-us" ng-app="weatherApp">`
+    * AngularJS initializes automatically upon DOMContentLoaded event or when the angular.js script is evaluated if at that time document.readyState is set to 'complete'
+    * At this point AngularJS looks for the ngApp directive which designates your application root. If the ngApp directive is found then AngularJS will:      
+        * load the module associated with the directive.
+        * create the application injector
+        * compile the DOM treating the ngApp directive as the root of the compilation. This allows you to tell it to treat only a portion of the DOM as an AngularJS application.
 
 
 * https://docs.angularjs.org/api/ng/service/$compile
