@@ -189,7 +189,8 @@ filters, directives which configures the Injector
     * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
         * Placing script tags at the end of the page improves app load time because the HTML loading is not blocked by loading of the angular.js script
     * Place ng-app to the root of your application, typically on the <html> tag if you want AngularJS to auto-bootstrap your application
-        * `<html lang="en-us" ng-app="weatherApp">`
+        * `<html lang="en-us" ng-app="weatherApp" ng-strict-di>`
+        * ng-strict-di - strict DI mode: Strict mode throws an error whenever a service tries to use implicit annotations
     * AngularJS initializes automatically upon DOMContentLoaded event or when the angular.js script is evaluated if at that time document.readyState is set to 'complete'
     * At this point AngularJS looks for the ngApp directive which designates your application root. If the ngApp directive is found then AngularJS will:      
         * load the module associated with the directive.
