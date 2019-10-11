@@ -175,38 +175,49 @@ filters, directives which configures the Injector
 service factory
 * can have their own dependencies
 ## HTML Compiler
-* parses the template and instantiates directives and expressions
-* AngularJS's HTML compiler allows the developer to teach the browser new HTML syntax
-* The compiler allows you to attach behavior to any HTML element or attribute and even create new HTML elements or attributes with custom behavior. 
-    * AngularJS calls these behavior extensions directives.
-* All of this compilation takes place in the web browser; no server side or pre-compilation step is involved
-* Compiler is an AngularJS service which traverses the DOM looking for attributes. The compilation process happens in two phases.
-    * Compile: traverse the DOM and collect all of the directives. The result is a linking function.
-    * Link: combine the directives with a scope and produce a live view. Any changes in the scope model are reflected in the view, and any user interactions with the view are reflected in the scope model. This makes the scope model the single source of truth.
-* A directive is a behavior which should be triggered when specific HTML constructs are encountered during the compilation process
-* A directive is just a function which executes when the compiler encounters it in the DOM
-* The AngularJS compiler consumes the DOM, not string templates. The result is a linking function, which when combined with a scope model results in a live view
-* The AngularJS approach produces a stable DOM. The DOM element instance bound to a model item instance does not change for the lifetime of the binding. This means that the code can get hold of the elements and register event handlers and know that the reference will not be destroyed by template data merge
-* HTML compilation happens in three phases:
-    1. $compile traverses the DOM and matches directives.
-        * If the compiler finds that an element matches a directive, then the directive is added to the list of directives that match the DOM element. A single element may match multiple directives.
-    1. Once all directives matching a DOM element have been identified, the compiler sorts the directives by their priority.
-        * Each directive's compile functions are executed. Each compile function has a chance to modify the DOM. Each compile function returns a link function. These functions are composed into a "combined" link function, which invokes each directive's returned link function.
-    1. $compile links the template with the scope by calling the combined linking function from the previous step. This in turn will call the linking function of the individual directives, registering listeners on the elements and setting up $watchs with the scope as each directive is configured to do.
+* parses the template, instantiates directives and expressions
+* allows to attach behavior to any HTML element or attribute, create new HTML elements or attributes with custom behavior
+    * AngularJS calls these behavior extensions directives
+* all compilation in the web browser, no server side or pre-compilation
+* is a service which traverses the DOM looking for attributes
+* has two phases
+    * compile: traverse the DOM and collect all of the directives. The result is a linking function
+    * link: combine the directives with a scope and produce a live view
+* directive is just a function which executes when the compiler encounters it in the DOM
+* The AngularJS compiler consumes the DOM, not string templates. The result is a linking function, which when combined 
+with a scope model results in a live view
+* The AngularJS approach produces a stable DOM. The DOM element instance bound to a model item instance does not change 
+for the lifetime of the binding. This means that the code can get hold of the elements and register event handlers and 
+know that the reference will not be destroyed by template data merge
+* happens in three steps:
+    1. `$compile` traverses the DOM and matches directives
+    1. compiler sorts the directives by their priority
+        * each directive's compile functions are executed
+        * each compile function has a chance to modify the DOM
+        * each compile function returns a link function
+        * functions are composed into a "combined" link function
+    1. `$compile` links the template with the scope by calling the combined linking function
+        * invokes linking function of the individual directives
+        * registers listeners on the elements
+        * setting up `$watch` with the scope as each directive is configured to do
 * The result of this is a live binding between the scope and the DOM.
 * why the compile process has separate compile and link phases?
     * compile and link separation is needed any time a change in a model causes a change in the structure of the DOM
     * It's rare for directives to have a compile function, since most directives are concerned with working with a specific DOM element instance rather than changing its overall structure.
     * Directives often have a link function. A link function allows the directive to register listeners to the specific cloned DOM element instance as well as to copy content into the DOM from the scope.
-*  Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
+* Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
 ## Bootstrap
 * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
-    * Placing script tags at the end of the page improves app load time because the HTML loading is not blocked by loading of the angular.js script
-* Place ng-app to the root of your application, typically on the <html> tag if you want AngularJS to auto-bootstrap your application
+    * placing script tags at the end of the page improves app load time because the HTML loading is not blocked by 
+    loading of the `angular.js` script
+* place `ng-app` to the root of your application, typically on the `<html>` tag if you want AngularJS to 
+auto-bootstrap your application
     * `<html lang="en-us" ng-app="weatherApp" ng-strict-di>`
-    * ng-strict-di - strict DI mode: Strict mode throws an error whenever a service tries to use implicit annotations
-* AngularJS initializes automatically upon DOMContentLoaded event or when the angular.js script is evaluated if at that time document.readyState is set to 'complete'
-* At this point AngularJS looks for the ngApp directive which designates your application root. If the ngApp directive is found then AngularJS will:      
-    * load the module associated with the directive.
+    * `ng-strict-di` (strict DI mode) - throw an error whenever a service tries to use implicit annotations
+* AngularJS initializes automatically:
+    * upon `DOMContentLoaded` event,
+    * or `angular.js` script is evaluated if at that time `document.readyState == complete`
+* AngularJS looks for the `ngApp` (application root), then:      
+    * load the module associated with the directive
     * create the application injector
-    * compile the DOM treating the ngApp directive as the root of the compilation. This allows you to tell it to treat only a portion of the DOM as an AngularJS application.
+    * compile the DOM treating the `ngApp` directive as the root of the compilation
