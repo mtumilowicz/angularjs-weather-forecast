@@ -54,17 +54,17 @@ a specified behavior to that DOM element (e.g. via event listeners), or to trans
 * allows AngularJS to read and write variables
 * `{{ expression | filter }}`
 * compiler replaces it with the evaluated value of the markup
-* The double curly brace notation {{ }} to bind expressions to elements is built-in AngularJS markup
-* AngularJS's $parse service processes these expressions
-* do not have direct access to global variables like window, document or location
-* Expression evaluation is forgiving to undefined and null
-* In JavaScript, evaluating a.b.c throws an exception if a is not an object
-* It makes more sense to show nothing than to throw an exception if a is undefined (perhaps we are waiting for the server response, and it will become defined soon)
-* invoking a function a.b.c() on undefined or null simply returns undefined
-* apart from the ternary operator (a ? b : c), you cannot write a control flow statement in an expression
+* is processed by `$parse`
+* no direct access to global variables like window, document or location
+* evaluation is forgiving to `undefined` and `null`
+    * JavaScript: evaluating `a.b.c` throws an exception if `a` is not an object
+    * it makes more sense to show nothing than to throw an exception if a is undefined 
+    (perhaps we are waiting for the server response, and it will become defined soon)
+* invoking a function `a.b.c()` on `undefined` or `null` simply returns `undefined`
+* control flow statement apart from the ternary operator (a ? b : c)
     * logic should be in controllers, not the views
-* interpolation -  the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values
-    * Interpolation markup with embedded expressions is used by AngularJS to provide data-binding to text nodes and attribute values
+* interpolation - the process of evaluating a string literal containing one or more placeholders, in which 
+placeholders are replaced with their corresponding values
 ### Filter
 * formats the value of an expression for display to the user
 * underlying API is the $filterProvider
