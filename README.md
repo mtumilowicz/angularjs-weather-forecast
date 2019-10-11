@@ -10,7 +10,6 @@
 * HTML with additional markup
 * markup / markdown - syntax that annotates text and could be then interpreted (this readme is written using markdown)
 * written with HTML that contains AngularJS-specific elements and attributes
-* should have its own HTML file and load it with the `templateUrl` option
 * is parsed and processed by AngularJS compiler during application start
     * recursive process of attaching directives mirrors the process of compiling source code in compiled programming languages
 * combined with information from the model and controller creates the dynamic view that a user sees in the browser
