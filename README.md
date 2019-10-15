@@ -11,7 +11,8 @@
 * markup / markdown - syntax that annotates text and could be then interpreted (this readme is written using markdown)
 * written with HTML that contains AngularJS-specific elements and attributes
 * is parsed and processed by AngularJS compiler during application start
-    * recursive process of attaching directives mirrors the process of compiling source code in compiled programming languages
+    * recursive process of attaching directives mirrors the process of compiling source code in compiled programming 
+    languages
 * combined with information from the model and controller creates the dynamic view that a user sees in the browser
 * types:
     * [Directive](#Directive)
@@ -20,35 +21,31 @@
     * [Form controls](#Form-controls)
 ### Directive
 * extends HTML with custom attributes and elements
-* directives are markers on a DOM element (attribute, element name, comment, CSS class) that tell  compiler to attach 
-a specified behavior to that DOM element (e.g. via event listeners), or to transform the DOM element
-    * compilation means attaching directives to the HTML to make it interactive
-* when AngularJS bootstraps your application, the compiler traverses the DOM matching directives against the DOM elements
-* AngularJS normalizes an element's tag and attribute name to determine which elements match which directives
+* the only place where an application should access the DOM is within directives
+* directives are markers on a DOM element (attribute, element name, comment, CSS class) that tell compiler to attach 
+a specified behavior (e.g. via event listeners) or to transform it
+* when AngularJS bootstraps application, the compiler traverses the DOM matching directives against the DOM elements
+* normalization
     * directives usually are referred by their camelCase name (e.g. `ngModel`)
     * HTML is case-insensitive, so directives in the DOM typically have dash-delimited attributes (e.g. `ng-model`)
-* normalization process:
-    1. strip `x-` and `data-` from the front of the element/attributes
-    1. convert `:`, `-`, or `_` to camelCase
+    * process
+        1. strip `x-` and `data-` from the front of the element/attributes
+        1. convert `:`, `-`, or `_` to camelCase
 * `$compile` matches directives based on 
     * `(E)` element names, 
     * `(A)` attributes, 
     * `(C)` class names, 
     * `(M)` and comments 
     * default is: `EA`
-* transclude - We've seen that you can pass in models to a directive using the isolate scope, but sometimes it's desirable to be able to pass in an entire template rather than a string or an object
-    * only use transclude: true when you want to create a directive that wraps arbitrary content
-    * The dialog box should be able to wrap any arbitrary content.
-* scope: {...} // isolated scope
-    * there may be scenarios where the directive needs to exchange data with the parent
+* transclusion: including some content from one template to another
+    * https://teropa.info/blog/2015/06/09/transclusion.html
+* `scope: {...}` - isolated scope
     * directive can gain access to the parent scope by using some special symbols known as prefixes
-    * Using prefixes helps establish a two-way or one-way binding between parent and directive scopes, and also make calls to parent scope methods
-    * There are 3 types of prefixes in AngularJS:
-        * ‘@’ – Text binding / one-way binding
-            *  ‘@’ tells the directive to receive the value from the outer scope one-way (one-way binding) as a string. The one-way here means even if you change the value in the directive scope, that would not affect the value in the parent scope
-        * ‘=’ – Direct model binding / two-way binding
-        * ‘&’ – Behavior binding / Method binding
-* the only place where an application should access the DOM is within directives
+    * 3 types of prefixes:
+        * `@` – text binding (receive the value from the outer scope as a string)
+            * one-way binding: parent scope -> directive scope
+        * `=` – direct model binding / two-way binding
+        * `&` – behavior binding / method binding
 ### Markup
 * access variables and functions from the scope
 * allows AngularJS to read and write variables
