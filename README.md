@@ -47,6 +47,8 @@ a specified behavior (e.g. via event listeners) or to transform it
         * `=` – direct model binding / two-way binding
         * `&` – behavior binding / method binding
 ### Markup
+* interpolation - the process of evaluating a string literal containing one or more placeholders, in which 
+placeholders are replaced with their corresponding values
 * access variables and functions from the scope
 * allows AngularJS to read and write variables
 * `{{ expression | filter }}`
@@ -54,46 +56,48 @@ a specified behavior (e.g. via event listeners) or to transform it
 * is processed by `$parse`
 * no direct access to global variables like window, document or location
 * evaluation is forgiving to `undefined` and `null`
-    * JavaScript: evaluating `a.b.c` throws an exception if `a` is not an object
-    * it makes more sense to show nothing than to throw an exception if a is undefined 
+    * js: evaluating `a.b.c` throws an exception if `a` is not an object
+    * it makes more sense to show nothing than to throw an exception if `a` is `undefined` 
     (perhaps we are waiting for the server response, and it will become defined soon)
 * invoking a function `a.b.c()` on `undefined` or `null` simply returns `undefined`
-* control flow statement apart from the ternary operator (a ? b : c)
-    * logic should be in controllers, not the views
-* interpolation - the process of evaluating a string literal containing one or more placeholders, in which 
-placeholders are replaced with their corresponding values
+* no control flow statement apart from the ternary operator `(a ? b : c)`, cause logic should be 
+in controllers, not the views
 ### Filter
 * formats the value of an expression for display to the user
-* underlying API is the $filterProvider
-* {{ expression | filter }}
-* {{ 12 | currency }} ----> $12.00
-* chaining: {{ expression | filter1 | filter2 | ... }}
-* filter arguments: {{ expression | filter:argument1:argument2:... }}
-    * {{ 1234 | number:2 }} formats the number 1234 with 2 decimal points using the number filter
-    * ---> 1,234.00
+* underlying API is the `$filterProvider`
+* `{{ expression | filter }}`
+* e.g. `{{ 12 | currency }}` produces $12.00
+* chaining: `{{ expression | filter1 | filter2 | ... }}`
+* filter arguments: `{{ expression | filter:argument1:argument2:... }}`
+    * e.g. `{{ 1234 | number:2 }}` formats the number `1234` with `2` decimal 
+    points using the number filter produces `1,234.00`
 * primitive type filters are only executed when their inputs have changed
-    * 7 primitive data types: string, number, bigint, boolean, null, undefined, and symbol
-* objects type filters are executed on each $digest, as it would be too costly to track if the inputs have changed
-* You can also use filters in controllers, services, and directives
-    * inject a dependency with the name <filterName>Filter
-* Creating custom filters
+    * 7 primitive data types: `string`, `number`, `bigint`, `boolean`, `null`, `undefined`, and `symbol`
+* objects type filters are executed on each `$digest` (it would be too costly to track if the inputs have 
+changed)
+* could be used in controllers, services, and directives (dependency injection)
+* custom filters
     * just register a new filter factory function with your module
         ```
         angular.module('app', [])
         .filter('filterName', () => (input, otherArgs...) => {
         ```
-    * This factory function should return a new filter function which takes the input value as the first argument. Any filter arguments are passed in as additional arguments to the filter function
     * should be pure functions
 ### Form controls
-* Controls (input, select, textarea) are ways for a user to enter data. A Form is a collection of controls for the purpose of grouping related controls together.
-* form and controls provide validation services, so that the user can be notified of invalid input before submitting a form
-* By default, any change to the content will trigger a model update and form validation
-* AngularJS provides basic implementation for most common HTML5 input types: (text, number, url, email, date, radio, checkbox), as well as some directives for validation (required, pattern, minlength, maxlength, min, max)
+* Controls: input, select, textarea
+* Form: collection of controls
+* form and controls provide validation services
+* by default: any change to the content will trigger a model update and form validation
+* basic implementation for
+    * text, number, url, email, date, radio, checkbox
+    * required, pattern, minlength, maxlength, min, max
 ## Model
 * the data shown to the user in the view and with which the user interacts
-* values that are stored in variables on the scope
 ## Scope
 * context where the model is stored so that controllers, directives and expressions can access it
+* https://docs.angularjs.org/guide/scope#scope-life-cycle
+    * event loop
+    * digest
 ## View
 * what the user sees (the DOM)
 * loaded, transformed and rendered DOM
