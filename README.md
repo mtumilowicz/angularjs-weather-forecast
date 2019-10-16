@@ -184,9 +184,32 @@ changed)
 * the data shown to the user in the view and with which the user interacts
 ## Scope
 * context where the model is stored so that controllers, directives and expressions can access it
-* https://docs.angularjs.org/guide/scope#scope-life-cycle
-    * event loop
-    * digest
+* flow of a browser
+    1. receive an event
+    1. execute a corresponding JavaScript callback
+    1. the callback completes
+    1. browser re-renders the DOM
+    1. wait for more events
+* AngularJS modifies the normal JavaScript flow by providing its own event processing loop
+* to properly process model modifications the execution has to enter the AngularJS execution context (otherwise 
+AngularJS is unaware of model modifications)
+* digest loop - has something changed?
+* directives usually fall into one of two categories:
+    * **observing directives**
+        * e.g. `{{expression}}`
+        * register listeners using the `$watch()` 
+        * needs to be notified whenever the expression changes so that it can update the view
+    * **listener directives**
+        * `ng-click` 
+        * register a listener with the DOM
+        * when the DOM listener fires, the directive executes the associated expression and updates the view
+* dirty checking can be done with three strategies: 
+    * By reference, 
+    * by collection contents
+        * detects changes that occur inside an array or an object
+        * shallow
+    * and by value
+        * detects any change in an arbitrarily nested data structure
 ## View
 * what the user sees (the DOM)
 * loaded, transformed and rendered DOM
