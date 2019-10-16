@@ -104,71 +104,72 @@ changed)
 ## Data Binding
 * sync data between the model and the view
 * the template is compiled on the browser into live view
-* Any changes to the view are immediately reflected in the model, and 
-any changes in the model are propagated to the view
+* when the model changes, the view reflects the change, and vice versa
 * model is the single-source-of-truth for the application state
-* automatic synchronization of data between the model and view components
-* view is a projection of the model at all times. 
-* When the model changes, the view reflects the change, and vice versa
-* You can think of the view as simply an instant projection of your model
+* view is a projection of the model at all times
+* view is simply an instant projection of the model
 ## Controller
-* the business logic behind views
+* business logic
 * exposes variables and functionality to expressions and directives
-* `InvoiceController as invoice` - instantiate the controller and save it in the variable 
-`invoice` in the current scope
+* `InvoiceController as invoice` - instantiate the controller and save it in the variable
 * can be attached to the DOM in different ways
-    * the `ngController` directive - new child scope will be created and made available as an injectable parameter 
-    to the Controller's constructor function as `$scope`
+    * the `ngController` directive
+        * `<div ng-controller="MyCtrl">...`
     * a route controller in a `$route` definition
-    * the controller of a regular directive, or a component directive
-    * controller as syntax then the controller instance will be assigned to a property on the scope
-*  all the `$scope` properties will be available to the template at the point in the DOM where the Controller 
+    * the controller of a directive
+    * `controller as` syntax
+* `$scope` properties will be available to the template at the point in the DOM where the Controller 
 is registered
-* The `$scope` that each Controller receives will have access to properties and methods defined by Controllers 
-higher up the hierarchy
+* `$scope` will have access to properties and methods defined by Controllers higher up the hierarchy
 * there can be many instances of the same type of controller in an application
 ## Dependency Injection
-* creates and wires objects and functions
-* everything within AngularJS (directives, filters, controllers, services, ...) 
-is created and wired using dependency injection
-* `['$locationProvider', $locationProvider => $locationProvider.hashPrefix('')]`
-* will not minify strings
-* array first contains the names of the service dependencies that the controller needs
-*  AngularJS uses this array syntax to define the dependencies so that the DI also works after minifying the code, 
-which will most probably rename the argument name of the controller constructor function to something shorter like 
-`a`
-* order of identifiers in the array is the same as the order of argument names in the factory function
-* ordering of the values in the $inject array must match the ordering of the parameters in MyController
+* everything within AngularJS (directives, filters, controllers, services, ...) is created and wired 
+using dependency injection
+* AngularJS uses this array syntax to define the dependencies so that the DI also works after 
+minifying the code, which will most probably rename the argument name of the controller constructor 
+function to something shorter like `a`
+    * strings are not minified
+    * `['$locationProvider', $locationProvider => $locationProvider.hashPrefix('')]`
+    * array first contains the names of the service dependencies that the controller needs
+    * order of identifiers in the array is the same as the order of argument names\
+    * ordering of the values in the `$inject` array must match the ordering of the parameters
+        ```
+        controller.$inject = [
+            "service1",
+            "service2"
+        ];
+        ```
 ## Injector
 * dependency injection container
 * each AngularJS application has an injector
 * injector is a service locator that is responsible for construction and lookup of dependencies
-* `<div ng-controller="MyController">`
-* When AngularJS compiles the HTML, it processes the ng-controller directive, which in turn asks the injector to 
-create an instance of the controller and its dependencies
-* `injector.instantiate(MyController);`
+* example:
+    * `<div ng-controller="MyController">`
+    * when AngularJS compiles the HTML, it processes the ng-controller directive, which in turn asks the 
+    injector to create an instance of the controller and its dependencies
+    * `injector.instantiate(MyController);`
 ## Module
-* a container for the different parts of an app including controllers, services, 
-filters, directives which configures the Injector
-* `angular.module('invoice2', ['finance2'])` - invoice2 depends on the finance2
+* a container for the different parts of an app including controllers, services, filters, directives
+* `angular.module('invoice2', ['finance2'])` - module `invoice2` depends on the module `finance2`
 * when AngularJS starts, it will use the configuration of the module with the name defined by the 
 `ng-app` directive, including the configuration of all modules that this module depends on
-* AngularJS apps don't have a main method. Instead modules declaratively specify how an application should be bootstrapped.
-    * application level module which depends on the above modules and contains any initialization code
 * we recommend that you break your application to multiple modules like this:
-    * A module for each feature
-    * A module for each reusable component (especially directives and filters)
-    * And an application level module which depends on the above modules and contains any initialization code.
-* Depending on a module implies that the required module will be loaded before the requiring module is loaded
-* In a single module the order of execution is as follows:
-    1. provider functions are executed, so they and the services they define can be made available to the $injector.
-    1. After that, the configuration blocks (config functions) are executed. This means the configuration blocks of the required modules execute before the configuration blocks of any requiring module.
-    1. This continues until all module dependencies has been resolved.
+    * module for each feature
+    * module for each reusable component (especially directives and filters)
+    * application level module which depends on the above modules
+* required module will be loaded before the requiring module
+* order of execution
+    1. provider functions are executed, so they and the services they define can be made available to 
+    the `$injector`
+    1. configuration blocks (config functions) are executed
+    1. this continues until all module dependencies has been resolved
     1. the run blocks that have been collected from each module are executed in order of requirement
-* each module is only loaded once, even if multiple other modules require it
-* the factory function for "values" and "services" is called lazily when the value/service is injected for the first time
-* Run blocks are the closest thing in AngularJS to the main method. A run block is the code which needs to run to kickstart the application
-* Beware that using angular.module('myModule', []) will create the module myModule and overwrite any existing module named myModule. Use angular.module('myModule') to retrieve an existing module
+* each module is only loaded once (even if multiple other modules require it)
+* the factory function for "values" and "services" is called lazily when the value/service is injected 
+for the first time
+* run block is the code which needs to run to kickstart the application
+* run blocks are the closest thing in AngularJS to the main method
+* `angular.module('myModule')` retrieves an existing module
 ## Service
 * reusable business logic independent of views
 * singleton
