@@ -4,7 +4,96 @@
 * _Reference_: https://docs.angularjs.org/guide
 * _Reference_: https://essenceofcode.com/2015/08/21/awesome-angular-controllers-with-es6-6-easy-steps/
 * running scripts from package.json - `npm run-script <command> [--silent] [-- <args>...]`
- 
+# ES6
+* you can think about ES6 as a javascript next version
+* ES5 supported by all browsers, ES6 needs polyfills and transpilers
+1. es6 compatibility with browsers
+	* compiler: ES6 -> ES5 (temporary until browsers will support es6)
+	* module loader: webpack, jspm
+	* server: nodejs
+1. `let`, `const`
+    * no hoisting (moving declarations to the top of their scope)
+	* `let` - block scope
+	* `const` - can't change reference
+1. lambda, fat arrow (`=>`)
+    * `this` value of the enclosing lexical scope
+1. rest operator `...`
+    ```
+   	function sumUp(...toAdd) {
+   		...
+   	}
+    ```
+	* in short words, converts argument list into an array: `sumUp(1,2,3,4) -> sumUp([1,2,3,4])`
+1. spread operator `...`
+    ```
+   	let numbers = [1,2,3,4,5];
+   	console.log(...numbers); // 1 \n 2 \n 3 ...
+   	console.log(Math.max(...numbers)); // without ... NAN
+    ```
+1. the for-of loop
+    ```
+   	let xxx = [1, 2, 3, 4];
+   	for (let x of xxx) {
+   		console.log(x);
+   	}
+    ```
+1. template literals, `${}`
+    ```
+   	let name = 'max';
+   	let description = `Hello, Im ${name}`;
+    ```
+1. desctructuring array
+    ```
+    let numbers = [1, 2, 3];
+    let [a, b] = numbers;
+    console.log(a); // 1
+    console.log(b); // 2
+    ```
+    ```
+    let [a, ...b] = numbers;
+    console.log(b) // 2, 3
+    ```
+    ```
+    let numbers = [1, 2, 3];
+    let [a, ,c] = numbers;
+    // a = 1, c = 3
+    ``` 
+    * undefined if value has no equivalent  
+1. desctructuring objects
+    ```
+   	let obj = {
+   		name: 'aa'
+   		age: 27
+   		greet: a => console.log('a');
+   	
+   	}
+   	let {name, age} = obj;
+    ```
+1. classes
+    ```
+   	class X {
+   		constructor(name) {
+   			this._name = name; // private field
+   		}
+   	
+   		get name() { // bind to property
+            return this._name;
+        }
+   
+        set name(newName) { // binds to property
+            this._name = newName;
+        }
+   	}
+   	
+   	let x = new X();
+   	console.log(x.name);
+    x.name = 'a';
+    ```
+1. importing / exporting, default exports
+1. modules are always in Strict Mode (no need to define "use strict")
+1. each module has its own scope
+1. maps and sets
+
 # angularjs
 ## Template
 * HTML with additional markup
