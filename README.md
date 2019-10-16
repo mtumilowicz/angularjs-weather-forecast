@@ -176,36 +176,13 @@ for the first time
 * can have their own dependencies
 ## HTML Compiler
 * parses the template, instantiates directives and expressions
-* allows to attach behavior to any HTML element or attribute, create new HTML elements or attributes with custom behavior
-    * AngularJS calls these behavior extensions directives
+* allows to attach behavior to any HTML element or attribute, create new HTML elements
 * all compilation in the web browser, no server side or pre-compilation
 * is a service which traverses the DOM looking for attributes
 * has two phases
-    * compile: traverse the DOM and collect all of the directives. The result is a linking function
-    * link: combine the directives with a scope and produce a live view
-* directive is just a function which executes when the compiler encounters it in the DOM
-* The AngularJS compiler consumes the DOM, not string templates. The result is a linking function, which when combined 
-with a scope model results in a live view
-* The AngularJS approach produces a stable DOM. The DOM element instance bound to a model item instance does not change 
-for the lifetime of the binding. This means that the code can get hold of the elements and register event handlers and 
-know that the reference will not be destroyed by template data merge
-* happens in three steps:
-    1. `$compile` traverses the DOM and matches directives
-    1. compiler sorts the directives by their priority
-        * each directive's compile functions are executed
-        * each compile function has a chance to modify the DOM
-        * each compile function returns a link function
-        * functions are composed into a "combined" link function
-    1. `$compile` links the template with the scope by calling the combined linking function
-        * invokes linking function of the individual directives
-        * registers listeners on the elements
-        * setting up `$watch` with the scope as each directive is configured to do
-* The result of this is a live binding between the scope and the DOM.
-* why the compile process has separate compile and link phases?
-    * compile and link separation is needed any time a change in a model causes a change in the structure of the DOM
-    * It's rare for directives to have a compile function, since most directives are concerned with working with a specific DOM element instance rather than changing its overall structure.
-    * Directives often have a link function. A link function allows the directive to register listeners to the specific cloned DOM element instance as well as to copy content into the DOM from the scope.
-* Link means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
+    * **compile**: traverse the DOM and collect all of the directives
+    * **link**: combine the directives with a scope and produce a live view
+        * it means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
 ## Bootstrap
 * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
     * placing script tags at the end of the page improves app load time because the HTML loading is not blocked by 
