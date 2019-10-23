@@ -10,8 +10,8 @@ describe("home controller tests", () => {
         }
     ));
 
-    it("default city is Warsaw", () =>
-        expect(homeController.city).toBe("Warsaw")
+    it("default city is Madrid", () =>
+        expect(homeController.city).toBe("Madrid")
     );
 
     it("changing city in controller should change city in mockHomeCityService", () => {
