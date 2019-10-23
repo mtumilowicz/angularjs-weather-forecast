@@ -1,8 +1,0 @@
-logs/*
-!.gitkeep
-node_modules/
-src/lib/
-tmp
-.DS_Store
-.idea
-*.iml
