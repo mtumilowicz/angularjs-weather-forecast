@@ -194,6 +194,14 @@ changed)
 * to properly process model modifications the execution has to enter the AngularJS execution context (otherwise 
 AngularJS is unaware of model modifications)
 * digest loop - has something changed?
+    * below line of reasoning is not exactly true, but good to strengthen intuition
+    * assumption: model changes happen only on user interaction
+    * interactions can happen e.g. due to
+        * mouse activity (move, clicked etc)
+        * keyboard activity (key up, key down etc)
+    * directives for the corresponding events wrap the expression execution in `$scope.$apply`
+    * result: digest cycle
+    * `$timeout`, `$interval` fire events that triggers the digest loop
 * directives usually fall into one of two categories:
     * **observing directives**
         * e.g. `{{expression}}`
@@ -257,7 +265,7 @@ function to something shorter like `a`
 * injector is a service locator that is responsible for construction and lookup of dependencies
 * example:
     * `<div ng-controller="MyController">`
-    * when AngularJS compiles the HTML, it processes the ng-controller directive, which in turn asks the 
+    * when AngularJS compiles the HTML, it processes the `ng-controller` directive, which in turn asks the 
     injector to create an instance of the controller and its dependencies
     * `injector.instantiate(MyController);`
 ## Module
@@ -294,7 +302,7 @@ for the first time
 * has two phases
     * **compile**: traverse the DOM and collect all of the directives
     * **link**: combine the directives with a scope and produce a live view
-        * it means setting up listeners on the DOM and setting up $watch on the Scope to keep the two in sync
+        * it means setting up listeners on the DOM and setting up `$watch` on the Scope to keep the two in sync
 ## Bootstrap
 * AngularJS automatic initialization: `<script src="../../node_modules/angular/angular.js"></script>`
     * placing script tags at the end of the page improves app load time because the HTML loading is not blocked by 
